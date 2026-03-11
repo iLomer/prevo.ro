@@ -2,22 +2,22 @@
 
 ---
 
-## [slice-001] -- Initialize Next.js App with TypeScript
-**Epic:** E1 | **Size:** S | **Depends on:** none
+## [slice-002] -- Configure Tailwind CSS with Fiskio Design Tokens
+**Epic:** E1 | **Size:** S | **Depends on:** slice-001
 **Started: 2026-03-11 | Agent: meto-epic-E1**
 
 **User Story**
-As a developer, I want a Next.js project initialized with TypeScript in strict mode, so that all subsequent work has a solid foundation.
+As a developer, I want Tailwind CSS configured with base design tokens, so that all UI work uses consistent styling from the start.
 
 **Acceptance Criteria**
-- [ ] Next.js app created with `create-next-app` using App Router (not Pages Router)
-- [ ] TypeScript strict mode enabled in `tsconfig.json`
-- [ ] Default boilerplate pages cleaned out (no Next.js demo content)
-- [ ] `npm run dev` starts successfully on localhost:3000
-- [ ] `npm run build` completes with zero errors
-- [ ] Project uses `src/` directory structure (`src/app/`, `src/lib/`, etc.)
+- [ ] Tailwind CSS installed and configured in `tailwind.config.ts`
+- [ ] Base color palette defined (primary, secondary, accent, neutral, error, success, warning)
+- [ ] Custom font family configured (system font stack or chosen font)
+- [ ] Global CSS file (`src/app/globals.css`) includes Tailwind directives (`@tailwind base/components/utilities`)
+- [ ] A simple test element renders with Tailwind classes correctly on `npm run dev`
+- [ ] Dark mode class strategy configured (manual toggle, not system preference)
 
 **Out of Scope**
-- Tailwind CSS configuration (separate task)
-- Supabase setup (separate task)
-- Any application code beyond the bare skeleton
+- Component library or reusable components
+- Full brand identity or logo
+- Dark mode toggle UI (just the config)
