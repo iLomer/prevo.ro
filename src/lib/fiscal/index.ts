@@ -36,3 +36,26 @@ export {
   getNormaDeVenitEntry,
   getAllNormaDeVenitEntries,
 } from "./norma-venit";
+
+// SRL fiscal logic
+export {
+  // Types
+  type SRLMicroRegime,
+  type SRLMicroTaxBreakdown,
+  type DividendBreakdown,
+  type CASSDividendResult,
+  type SRLFiscalConstants,
+  // Constants
+  SRL_CONSTANTS_2026,
+  // Micro tax
+  calculateMicroTax,
+  calculateQuarterlyMicroTax,
+  // Dividends
+  calculateDividendNet,
+  // CASS dividends
+  calculateCASSDividend,
+  // SRL deadlines
+  type SRLDeadlineWithAmount,
+  getAllSRLDeadlines,
+  getSRLDeadlinesWithAmounts,
+} from "./srl";

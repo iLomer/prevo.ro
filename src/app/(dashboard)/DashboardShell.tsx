@@ -12,7 +12,7 @@ interface NavItem {
   icon: React.ReactNode;
 }
 
-const NAV_ITEMS: NavItem[] = [
+const PFA_NAV_ITEMS: NavItem[] = [
   {
     label: "Panou",
     href: "/panou",
@@ -75,6 +75,62 @@ const NAV_ITEMS: NavItem[] = [
   },
 ];
 
+const SRL_NAV_ITEMS: NavItem[] = [
+  {
+    label: "Panou SRL",
+    href: "/srl",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+        <rect x="3" y="3" width="7" height="7" />
+        <rect x="14" y="3" width="7" height="7" />
+        <rect x="3" y="14" width="7" height="7" />
+        <rect x="14" y="14" width="7" height="7" />
+      </svg>
+    ),
+  },
+  {
+    label: "Simulator Dividende",
+    href: "/srl/simulator-dividende",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+        <line x1="12" y1="1" x2="12" y2="23" />
+        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+      </svg>
+    ),
+  },
+  {
+    label: "CASS Dividende",
+    href: "/srl/cass-dividende",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Decizie Asociat",
+    href: "/srl/decizie-asociat",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+        <line x1="16" y1="13" x2="8" y2="13" />
+        <line x1="16" y1="17" x2="8" y2="17" />
+        <polyline points="10 9 9 9 8 9" />
+      </svg>
+    ),
+  },
+  {
+    label: "Cash Flow",
+    href: "/srl/cash-flow",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+      </svg>
+    ),
+  },
+];
+
 const REGIME_LABELS: Record<FiscalRegime, string> = {
   norma_venit: "Norma de venit",
   sistem_real: "Sistem real",
@@ -97,7 +153,14 @@ export function DashboardShell({ entityType, regime, children }: DashboardShellP
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const navItems = entityType === "srl"
+    ? [...PFA_NAV_ITEMS, ...SRL_NAV_ITEMS]
+    : PFA_NAV_ITEMS;
+
   function isActive(href: string): boolean {
+    if (href === "/srl") {
+      return pathname === "/srl";
+    }
     return pathname === href || pathname.startsWith(href + "/");
   }
 
@@ -152,7 +215,7 @@ export function DashboardShell({ entityType, regime, children }: DashboardShellP
                 {REGIME_LABELS[regime]}
               </p>
             </div>
-            {NAV_ITEMS.map((item) => (
+            {PFA_NAV_ITEMS.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -166,6 +229,28 @@ export function DashboardShell({ entityType, regime, children }: DashboardShellP
                 {item.label}
               </Link>
             ))}
+            {entityType === "srl" && (
+              <>
+                <div className="my-2 border-t border-secondary-200" />
+                <p className="mb-1 px-3 text-xs font-semibold uppercase tracking-wider text-secondary-400">
+                  SRL
+                </p>
+                {SRL_NAV_ITEMS.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
+                      isActive(item.href)
+                        ? "bg-primary-50 text-primary-700"
+                        : "text-secondary-600 hover:bg-secondary-100 hover:text-secondary-900"
+                    }`}
+                  >
+                    {item.icon}
+                    {item.label}
+                  </Link>
+                ))}
+              </>
+            )}
           </nav>
         </aside>
 
@@ -201,7 +286,7 @@ export function DashboardShell({ entityType, regime, children }: DashboardShellP
                 </p>
               </div>
               <nav className="flex flex-col gap-1 px-3 py-4">
-                {NAV_ITEMS.map((item) => (
+                {PFA_NAV_ITEMS.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
@@ -216,6 +301,29 @@ export function DashboardShell({ entityType, regime, children }: DashboardShellP
                     {item.label}
                   </Link>
                 ))}
+                {entityType === "srl" && (
+                  <>
+                    <div className="my-2 border-t border-secondary-200" />
+                    <p className="mb-1 px-3 text-xs font-semibold uppercase tracking-wider text-secondary-400">
+                      SRL
+                    </p>
+                    {SRL_NAV_ITEMS.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
+                          isActive(item.href)
+                            ? "bg-primary-50 text-primary-700"
+                            : "text-secondary-600 hover:bg-secondary-100 hover:text-secondary-900"
+                        }`}
+                      >
+                        {item.icon}
+                        {item.label}
+                      </Link>
+                    ))}
+                  </>
+                )}
               </nav>
             </aside>
           </div>
@@ -227,10 +335,10 @@ export function DashboardShell({ entityType, regime, children }: DashboardShellP
         </main>
       </div>
 
-      {/* Mobile bottom nav */}
+      {/* Mobile bottom nav -- show first 5 items for quick access */}
       <nav className="fixed bottom-0 left-0 right-0 z-30 border-t border-secondary-200 bg-background pb-safe lg:hidden">
         <div className="flex items-center justify-around px-2 py-1.5">
-          {NAV_ITEMS.map((item) => (
+          {navItems.slice(0, 5).map((item) => (
             <Link
               key={item.href}
               href={item.href}
