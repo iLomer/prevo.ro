@@ -1,6 +1,6 @@
-# pricepo-ro
+# Fiskio (pricepo.ro)
 
-a platform for people to educate them
+Fiscal education platform for Romanian PFA and SRL owners. Teaches entrepreneurs to handle their own taxes — no accountant, no jargon, no ANAF surprises.
 
 ## Read First
 1. `/ai/context/product-vision.md` — what and why
