@@ -2,6 +2,8 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { OnboardingWizard } from "@/components/onboarding/OnboardingWizard";
 
+export const dynamic = "force-dynamic";
+
 export default async function OnboardingPage() {
   const supabase = await createClient();
 
@@ -14,13 +16,14 @@ export default async function OnboardingPage() {
   }
 
   // Check if user already has a fiscal profile
-  const { data: profile } = await supabase
+  const { data: profile, error } = await supabase
     .from("fiscal_profiles")
     .select("id")
     .eq("id", user.id)
     .single();
 
-  if (profile) {
+  // If profile exists, go to dashboard. If table doesn't exist or no row, show onboarding.
+  if (profile && !error) {
     redirect("/panou");
   }
 

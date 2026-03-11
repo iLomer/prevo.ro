@@ -39,18 +39,37 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
+  // Protected dashboard routes
+  const isProtectedRoute =
+    pathname.startsWith("/panou") ||
+    pathname.startsWith("/onboarding") ||
+    pathname.startsWith("/calendar") ||
+    pathname.startsWith("/estimator") ||
+    pathname.startsWith("/d212") ||
+    pathname.startsWith("/alerte");
+
   // Redirect unauthenticated users away from protected routes
-  if (!user && (pathname.startsWith("/panou") || pathname.startsWith("/onboarding"))) {
+  if (!user && isProtectedRoute) {
     const url = request.nextUrl.clone();
     url.pathname = "/autentificare";
-    return NextResponse.redirect(url);
+    const redirectResponse = NextResponse.redirect(url);
+    // Carry over cookies from session refresh to prevent cookie bloat
+    supabaseResponse.cookies.getAll().forEach((cookie) => {
+      redirectResponse.cookies.set(cookie.name, cookie.value);
+    });
+    return redirectResponse;
   }
 
   // Redirect authenticated users away from auth routes
   if (user && (pathname.startsWith("/autentificare") || pathname.startsWith("/inregistrare"))) {
     const url = request.nextUrl.clone();
     url.pathname = "/panou";
-    return NextResponse.redirect(url);
+    const redirectResponse = NextResponse.redirect(url);
+    // Carry over cookies from session refresh
+    supabaseResponse.cookies.getAll().forEach((cookie) => {
+      redirectResponse.cookies.set(cookie.name, cookie.value);
+    });
+    return redirectResponse;
   }
 
   return supabaseResponse;

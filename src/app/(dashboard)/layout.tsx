@@ -3,6 +3,8 @@ import { createClient } from "@/lib/supabase/server";
 import { DashboardShell } from "./DashboardShell";
 import type { FiscalRegime, EntityType } from "@/types";
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardLayout({
   children,
 }: Readonly<{
@@ -19,13 +21,13 @@ export default async function DashboardLayout({
   }
 
   // Check if user has completed onboarding
-  const { data: profile } = await supabase
+  const { data: profile, error } = await supabase
     .from("fiscal_profiles")
     .select("id, entity_type, regime")
     .eq("id", user.id)
     .single();
 
-  if (!profile) {
+  if (!profile || error) {
     redirect("/onboarding");
   }
 
