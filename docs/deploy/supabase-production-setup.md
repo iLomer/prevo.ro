@@ -1,13 +1,13 @@
 # Supabase Production Project Setup
 
-Checklist for setting up the production Supabase project for Fiskio (pricepo.ro).
+Checklist for setting up the production Supabase project for Prevo (pricepo.ro).
 
 ## 1. Create Production Project
 
 1. Go to [Supabase Dashboard](https://supabase.com/dashboard)
 2. Click "New Project"
 3. Settings:
-   - **Name:** fiskio-production
+   - **Name:** prevo-production
    - **Database Password:** generate a strong password and store securely
    - **Region:** EU West (Frankfurt) -- closest to Romanian users
    - **Plan:** Free tier for launch, upgrade as needed

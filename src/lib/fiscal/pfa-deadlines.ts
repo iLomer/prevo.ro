@@ -4,6 +4,13 @@
  * applicable regimes, and applicable TVA statuses.
  *
  * Pure functions -- no side effects, no Supabase calls.
+ *
+ * Key dates:
+ * - April 15: D212 early filing + full payment = 3% bonus on income tax
+ * - May 25: D212 final deadline + CAS/CASS/impozit payment
+ * - D300 (TVA): monthly or quarterly, due 25th of following month
+ * - D394 (informativa): for TVA payers, due 30th of following month
+ * - D390 (recapitulativa): for intra-community transactions
  */
 
 import type { FiscalRegime, TVAStatus } from "@/types";
@@ -17,13 +24,31 @@ const YEAR = FISCAL_CONSTANTS_2026.FISCAL_YEAR;
  */
 export function getAllPFADeadlines(): FiscalDeadline[] {
   return [
-    // D212 -- Declaratia Unica
+    // ─── D212 — Declaratia Unica ───
+
+    // Early filing with bonus
+    {
+      id: "d212-early-bonus",
+      name: "D212 anticipat + plata integrala = bonus 3%",
+      description:
+        "Daca depui Declaratia Unica (D212) si platesti integral impozitul pe venit, CAS si CASS " +
+        "pana pe 15 aprilie, beneficiezi de o reducere de 3% din impozitul pe venit (OUG 8/2026). " +
+        "Bonusul se aplica DOAR pe impozitul pe venit, nu pe CAS/CASS.",
+      date: new Date(YEAR, 3, 15), // April 15
+      recurrence: "annually",
+      applicableRegimes: ["norma_venit", "sistem_real"],
+      applicableTVAStatuses: ["platitor", "neplatitor"],
+      category: "declaratie",
+    },
+
+    // Final D212 deadline
     {
       id: "d212-submission",
-      name: "Depunere Declaratia Unica (D212)",
+      name: "Depunere D212 + plata impozit, CAS, CASS (termen final)",
       description:
-        "Termenul limita pentru depunerea Declaratiei Unice privind impozitul pe venit si contributiile sociale. " +
-        "Se depune electronic prin SPV sau la ghiseul ANAF.",
+        "Termenul limita pentru depunerea Declaratiei Unice privind impozitul pe venit si contributiile sociale " +
+        "pentru veniturile din anul precedent. Se depune electronic prin SPV. " +
+        "In acelasi termen se platesc impozitul pe venit, CAS (25%) si CASS (10%).",
       date: new Date(YEAR, 4, 25), // May 25
       recurrence: "annually",
       applicableRegimes: ["norma_venit", "sistem_real"],
@@ -31,59 +56,22 @@ export function getAllPFADeadlines(): FiscalDeadline[] {
       category: "declaratie",
     },
 
-    // CAS/CASS payment -- same deadline as D212 for estimated payments
-    {
-      id: "cas-cass-estimated-payment",
-      name: "Plata CAS si CASS estimate",
-      description:
-        "Termenul limita pentru plata contributiilor sociale (CAS 25% si CASS 10%) " +
-        "estimate pentru anul in curs, conform Declaratiei Unice.",
-      date: new Date(YEAR, 4, 25), // May 25
-      recurrence: "annually",
-      applicableRegimes: ["norma_venit", "sistem_real"],
-      applicableTVAStatuses: ["platitor", "neplatitor"],
-      category: "plata",
-    },
-
-    // Income tax estimated payment
-    {
-      id: "income-tax-estimated-payment",
-      name: "Plata impozit pe venit estimat",
-      description:
-        "Termenul limita pentru plata impozitului pe venit estimat " +
-        "pentru anul in curs, conform Declaratiei Unice.",
-      date: new Date(YEAR, 4, 25), // May 25
-      recurrence: "annually",
-      applicableRegimes: ["norma_venit", "sistem_real"],
-      applicableTVAStatuses: ["platitor", "neplatitor"],
-      category: "plata",
-    },
-
-    // D212 rectificativa (for adjustments after initial submission)
-    {
-      id: "d212-rectificativa",
-      name: "Termen D212 rectificativa (anul precedent)",
-      description:
-        "Termenul limita pentru depunerea Declaratiei Unice rectificative " +
-        "privind veniturile realizate in anul precedent si recalcularea contributiilor.",
-      date: new Date(YEAR, 4, 25), // May 25
-      recurrence: "annually",
-      applicableRegimes: ["norma_venit", "sistem_real"],
-      applicableTVAStatuses: ["platitor", "neplatitor"],
-      category: "declaratie",
-    },
-
-    // TVA D300 -- Monthly deadlines (for monthly TVA filers)
+    // ─── TVA D300 — Monthly deadlines (for monthly TVA filers) ───
     ...generateMonthlyTVADeadlines(),
 
-    // TVA D300 -- Quarterly deadlines
+    // ─── TVA D300 — Quarterly deadlines ───
     ...generateQuarterlyTVADeadlines(),
 
-    // TVA D390 -- Quarterly recapitulative statement
+    // ─── D394 — Declaratia informativa (TVA payers) ───
+    ...generateD394Deadlines(),
+
+    // ─── D390 — Recapitulativa intracomunitara ───
     {
       id: "d390-q1",
       name: "Declaratia recapitulativa D390 - T1",
-      description: "Declaratia recapitulativa privind livrarile/achizitiile intracomunitare pentru trimestrul 1.",
+      description:
+        "Declaratia recapitulativa privind livrarile/achizitiile intracomunitare pentru trimestrul 1. " +
+        "Obligatorie doar daca ai avut operatiuni intracomunitare.",
       date: new Date(YEAR, 3, 25), // April 25
       recurrence: "quarterly",
       applicableRegimes: ["norma_venit", "sistem_real"],
@@ -156,6 +144,58 @@ function generateMonthlyTVADeadlines(): FiscalDeadline[] {
   }
 
   return deadlines;
+}
+
+/**
+ * Generate D394 (declaratie informativa) deadlines for TVA payers.
+ * Due on the 30th of the month following the reporting period.
+ * Filed quarterly (same frequency as D300 for most PFA).
+ */
+function generateD394Deadlines(): FiscalDeadline[] {
+  return [
+    {
+      id: "d394-q1",
+      name: "Declaratia informativa D394 - T1",
+      description:
+        "Declaratia informativa privind livrarile/prestarile si achizitiile efectuate in trimestrul 1. " +
+        "Obligatorie pentru toti platitorii de TVA. Se depune electronic prin SPV.",
+      date: new Date(YEAR, 3, 30), // April 30
+      recurrence: "quarterly",
+      applicableRegimes: ["norma_venit", "sistem_real"],
+      applicableTVAStatuses: ["platitor"],
+      category: "tva",
+    },
+    {
+      id: "d394-q2",
+      name: "Declaratia informativa D394 - T2",
+      description: "Declaratia informativa privind livrarile/prestarile si achizitiile efectuate in trimestrul 2.",
+      date: new Date(YEAR, 6, 30), // July 30
+      recurrence: "quarterly",
+      applicableRegimes: ["norma_venit", "sistem_real"],
+      applicableTVAStatuses: ["platitor"],
+      category: "tva",
+    },
+    {
+      id: "d394-q3",
+      name: "Declaratia informativa D394 - T3",
+      description: "Declaratia informativa privind livrarile/prestarile si achizitiile efectuate in trimestrul 3.",
+      date: new Date(YEAR, 9, 30), // October 30
+      recurrence: "quarterly",
+      applicableRegimes: ["norma_venit", "sistem_real"],
+      applicableTVAStatuses: ["platitor"],
+      category: "tva",
+    },
+    {
+      id: "d394-q4",
+      name: "Declaratia informativa D394 - T4",
+      description: "Declaratia informativa privind livrarile/prestarile si achizitiile efectuate in trimestrul 4.",
+      date: new Date(YEAR + 1, 0, 30), // January 30 next year
+      recurrence: "quarterly",
+      applicableRegimes: ["norma_venit", "sistem_real"],
+      applicableTVAStatuses: ["platitor"],
+      category: "tva",
+    },
+  ];
 }
 
 /**
@@ -272,4 +312,34 @@ export function getUpcomingDeadlines(
     fromDate,
     toDate,
   });
+}
+
+/**
+ * Filter deadlines from any source (PFA or SRL) by regime, TVA status, and date range.
+ * Returns deadlines sorted chronologically.
+ */
+export function filterDeadlinesGeneric(
+  allDeadlines: FiscalDeadline[],
+  filter: DeadlineFilter
+): FiscalDeadline[] {
+  return allDeadlines
+    .filter((deadline) => {
+      if (
+        deadline.applicableRegimes.length > 0 &&
+        !deadline.applicableRegimes.includes(filter.regime)
+      ) {
+        return false;
+      }
+
+      if (
+        deadline.applicableTVAStatuses.length > 0 &&
+        !deadline.applicableTVAStatuses.includes(filter.tvaStatus)
+      ) {
+        return false;
+      }
+
+      const deadlineTime = deadline.date.getTime();
+      return deadlineTime >= filter.fromDate.getTime() && deadlineTime <= filter.toDate.getTime();
+    })
+    .sort((a, b) => a.date.getTime() - b.date.getTime());
 }

@@ -4,36 +4,42 @@ const features = [
     description:
       "Toate termenele tale intr-un singur loc. Stii exact ce declaratii ai, cand le depui si ce se intampla daca intarzii.",
     icon: CalendarIcon,
+    span: "md:col-span-2",
   },
   {
     title: "Estimator taxe in timp real",
     description:
       "Adaugi venitul, vezi instant cat trebuie sa pui deoparte. Fara surprize cand vine scadenta.",
     icon: CalculatorIcon,
+    span: "",
   },
   {
     title: "Ghid interactiv D212",
     description:
       "Fiecare camp explicat in limba romana normala. Calculele se fac automat. Fisierul e gata de depus in SPV.",
     icon: DocumentIcon,
+    span: "",
   },
   {
     title: "Sincronizare e-Factura",
     description:
       "Conectezi contul ANAF o singura data. Facturile se sincronizeaza automat, fara copy-paste.",
     icon: SyncIcon,
+    span: "md:col-span-2",
   },
   {
     title: "Alerte legislative",
     description:
       "Cand apare un OUG care te afecteaza, primesti explicatie concreta: ce s-a schimbat si ce trebuie sa faci.",
     icon: BellIcon,
+    span: "md:col-span-2",
   },
   {
     title: "Biblioteca fiscala",
     description:
       "Termeni fiscali explicati pe intelesul tuturor. Nu legaleza, ci informatii clare pe care le poti folosi imediat.",
     icon: BookIcon,
+    span: "",
   },
 ] as const;
 
@@ -87,37 +93,40 @@ function BookIcon({ className }: { className?: string }) {
 
 export function Features() {
   return (
-    <section className="bg-secondary-50 px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-      <div className="mx-auto max-w-5xl">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-secondary-900 sm:text-4xl">
-            Tot ce ai nevoie ca sa fii independent fiscal
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-secondary-600">
-            Instrumente practice, nu teorie abstracta. Fiecare functie te ajuta
-            sa rezolvi o problema reala.
-          </p>
-        </div>
+    <section id="functii" className="relative bg-secondary-100/50 px-6 py-24 sm:py-32">
+      <div className="mx-auto max-w-6xl">
+        <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-secondary-400">
+          Functii
+        </p>
+        <h2 className="mt-4 max-w-lg text-3xl font-bold tracking-tight text-secondary-900 sm:text-4xl">
+          Tot ce ai nevoie ca sa fii independent fiscal
+        </h2>
+        <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-secondary-500">
+          Instrumente practice, nu teorie abstracta. Fiecare functie te ajuta
+          sa rezolvi o problema reala.
+        </p>
 
-        <div className="mt-12 grid gap-8 sm:mt-16 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((feature) => (
+        <div className="mt-14 grid gap-3 sm:mt-16 md:grid-cols-3">
+          {features.map((f) => (
             <div
-              key={feature.title}
-              className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-secondary-200 transition-shadow hover:shadow-md"
+              key={f.title}
+              className={`group rounded-xl border border-secondary-200 bg-white p-6 shadow-sm transition-all hover:border-secondary-300 hover:shadow-md ${f.span}`}
             >
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-primary-100">
-                <feature.icon className="h-5 w-5 text-primary-600" />
+              <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-lg bg-primary-50">
+                <f.icon className="h-[18px] w-[18px] text-primary-600" />
               </div>
-              <h3 className="text-base font-semibold text-secondary-900">
-                {feature.title}
+              <h3 className="text-[15px] font-semibold text-secondary-900">
+                {f.title}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-secondary-600">
-                {feature.description}
+              <p className="mt-2 text-sm leading-relaxed text-secondary-500">
+                {f.description}
               </p>
             </div>
           ))}
         </div>
       </div>
+
+      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-secondary-200 to-transparent" />
     </section>
   );
 }

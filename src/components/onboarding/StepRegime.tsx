@@ -32,13 +32,7 @@ const SRL_REGIMES: RegimeOption[] = [
     value: "micro_1",
     label: "Microintreprindere 1%",
     description:
-      "Impozit de 1% pe venituri. Aplicabil SRL-urilor cu cel putin un angajat si venituri sub 500.000 EUR.",
-  },
-  {
-    value: "micro_3",
-    label: "Microintreprindere 3%",
-    description:
-      "Impozit de 3% pe venituri. Aplicabil SRL-urilor fara angajati sau celor care opteaza pentru aceasta cota.",
+      "Impozit de 1% pe cifra de afaceri, trimestrial. Aplicabil SRL-urilor cu venituri sub 100.000 EUR/an (OUG 89/2025). Angajatii nu mai sunt obligatorii.",
   },
 ];
 
@@ -47,31 +41,31 @@ export function StepRegime({ entityType, value, onChange }: StepRegimeProps) {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-foreground mb-2">
+      <h2 className="text-xl font-semibold text-secondary-900 mb-2">
         Ce regim fiscal ai?
       </h2>
-      <p className="text-secondary-500 mb-6">
+      <p className="text-secondary-500 mb-6 text-sm">
         Selecteaza regimul fiscal aplicabil{" "}
         {entityType === "pfa" ? "PFA-ului" : "SRL-ului"} tau.
       </p>
 
-      <div className="grid gap-4">
+      <div className="grid gap-3">
         {options.map((option) => (
           <button
             key={option.value}
             type="button"
             onClick={() => onChange(option.value)}
-            className={`rounded-xl border-2 p-5 text-left transition-all ${
+            className={`rounded-xl border p-5 text-left transition-all ${
               value === option.value
-                ? "border-primary-500 bg-primary-50"
-                : "border-secondary-200 hover:border-secondary-300"
+                ? "border-primary-400 bg-primary-50 shadow-sm"
+                : "border-secondary-200 bg-white hover:border-secondary-300 hover:shadow-sm"
             }`}
           >
             <span
               className={`text-lg font-bold ${
                 value === option.value
                   ? "text-primary-700"
-                  : "text-foreground"
+                  : "text-secondary-900"
               }`}
             >
               {option.label}

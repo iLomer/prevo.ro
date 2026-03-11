@@ -1,4 +1,4 @@
-# Epics -- Fiskio (pricepo.ro)
+# Epics -- Prevo (pricepo.ro)
 
 High-level orientation. Full task definitions live in `tasks-backlog.md`.
 Aligned with MVP phases from product vision. Refine with @meto-pm.
@@ -27,7 +27,7 @@ Aligned with MVP phases from product vision. Refine with @meto-pm.
 ---
 
 ## E4 -- Landing Page & Validation
-**Goal:** Build a waitlist landing page for pricepo.ro. Communicate the Fiskio value proposition, collect emails, target 200 signups in 30 days organic. Deploy to Vercel with custom domain.
+**Goal:** Build a waitlist landing page for pricepo.ro. Communicate the Prevo value proposition, collect emails, target 200 signups in 30 days organic. Deploy to Vercel with custom domain.
 **Status:** Complete -- 4 tasks done (slice-010 through slice-013)
 **Tasks:** slice-010 (Hero + value prop), slice-011 (Waitlist email collection), slice-012 (SEO + OG tags), slice-013 (Analytics)
 
@@ -41,7 +41,7 @@ Aligned with MVP phases from product vision. Refine with @meto-pm.
 ---
 
 ## E6 -- ANAF Integration (Phase 2)
-**Goal:** OAuth2 integration with SPV ANAF, automatic e-Factura sync, fiscal vector reading, and automatic legislative alerts. Requires qualified digital certificate per user.
+**Goal:** OAuth2 integration with SPV ANAF, automatic e-Factura sync (read-only), fiscal vector reading, and automatic legislative alerts. Requires qualified digital certificate per user. e-Factura data is consumed read-only by the estimator, alerts, and calendar — it is NOT displayed as a ledger or used for bookkeeping (see D008).
 **Status:** Not started (Phase 2 -- after PFA features validated)
 **Tasks:** To be sliced by @meto-pm
 
@@ -56,3 +56,11 @@ Aligned with MVP phases from product vision. Refine with @meto-pm.
 - **Wave 3 (after slice-026 + slice-032, parallel):** slice-028 (Dividend simulator, M) + slice-029 (CASS estimator, S) + slice-030 (Decizie Asociat, M)
 - **Wave 4 (after slice-026 + slice-027 + slice-032):** slice-031 (Fiscal cash flow, M)
 **Tasks:** slice-026 (SRL fiscal logic library), slice-027 (D100 calendar deadlines), slice-028 (Dividend simulator), slice-029 (CASS dividend estimator), slice-030 (Sole Associate Decision generator), slice-031 (Fiscal cash flow visual), slice-032 (SRL dashboard + navigation)
+
+---
+
+## E8 -- CAEN Expense Deductibility Guide [DROPPED]
+**Goal:** ~~Add an educational layer to the Registru (transaction ledger) that helps PFA sistem real users understand which expenses are deductible for their specific CAEN code.~~
+**Status:** DROPPED -- Product pivot (D008). Prevo does not offer bookkeeping features. The Registru feature this epic depended on has been removed entirely.
+**Dropped date:** 2026-03-11
+**Dropped tasks:** slice-033, slice-034, slice-035, slice-036

@@ -12,10 +12,12 @@ interface ApiResponse {
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export function WaitlistForm() {
+export function WaitlistForm({ variant = "light" }: { variant?: "light" | "dark" }) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<FormStatus>("idle");
   const [message, setMessage] = useState("");
+
+  const dark = variant === "dark";
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -58,10 +60,10 @@ export function WaitlistForm() {
   return (
     <div>
       {status === "success" ? (
-        <div className="rounded-lg bg-accent-50 p-4 text-center">
-          <p className="text-base font-medium text-accent-700">{message}</p>
-          <p className="mt-1 text-sm text-accent-600">
-            Vei primi un email cand lansam Fiskio.
+        <div className={`rounded-lg border p-4 text-center ${dark ? "border-accent-700 bg-accent-900/30" : "border-accent-200 bg-accent-50"}`}>
+          <p className={`text-base font-medium ${dark ? "text-accent-300" : "text-accent-700"}`}>{message}</p>
+          <p className={`mt-1 text-sm ${dark ? "text-accent-400" : "text-accent-600"}`}>
+            Vei primi un email cand lansam Prevo.
           </p>
         </div>
       ) : (
@@ -83,12 +85,20 @@ export function WaitlistForm() {
               }
             }}
             disabled={status === "loading"}
-            className="flex-1 rounded-lg border-0 px-4 py-3 text-base text-secondary-900 shadow-sm ring-1 ring-white/20 placeholder:text-secondary-400 focus:ring-2 focus:ring-accent-400 disabled:opacity-50"
+            className={`flex-1 rounded-lg border px-4 py-3 text-base shadow-sm focus:outline-none focus:ring-2 disabled:opacity-50 ${
+              dark
+                ? "border-secondary-700 bg-secondary-800 text-white placeholder:text-secondary-500 focus:border-accent-500 focus:ring-accent-500/20"
+                : "border-secondary-300 bg-white text-secondary-900 placeholder:text-secondary-400 focus:border-primary-500 focus:ring-primary-500/20"
+            }`}
           />
           <button
             type="submit"
             disabled={status === "loading"}
-            className="rounded-lg bg-accent-500 px-6 py-3 text-base font-semibold text-white shadow-sm transition-colors hover:bg-accent-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400 disabled:opacity-50"
+            className={`rounded-lg px-6 py-3 text-base font-semibold shadow-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50 ${
+              dark
+                ? "bg-white text-secondary-900 hover:bg-secondary-100 focus-visible:outline-white"
+                : "bg-secondary-900 text-white hover:bg-secondary-800 focus-visible:outline-secondary-500"
+            }`}
           >
             {status === "loading" ? "Se trimite..." : "Inscrie-te"}
           </button>
@@ -96,7 +106,7 @@ export function WaitlistForm() {
       )}
 
       {status === "error" && message && (
-        <p className="mt-3 text-sm text-error-300">{message}</p>
+        <p className={`mt-3 text-sm ${dark ? "text-error-400" : "text-error-600"}`}>{message}</p>
       )}
     </div>
   );

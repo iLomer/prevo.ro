@@ -3,10 +3,12 @@
  * Pure function -- no side effects, no Supabase calls.
  *
  * Rules (2026):
- * - If annual dividends <= 6x minimum gross salary (24,300 lei): no CASS
- * - If annual dividends > 6x minimum gross salary: CASS = 10% of base
- * - CASS base is capped at 60x minimum gross salary (243,000 lei)
- * - CASS is declared via D212, paid annually
+ * - If annual dividends < 6x minimum salary (24,300 lei): no CASS
+ * - 6x to 12x (24,300 - 48,600 lei): CASS = 10% of 6x = 2,430 lei
+ * - 12x to 24x (48,600 - 97,200 lei): CASS = 10% of 12x = 4,860 lei
+ * - Above 24x (97,200 lei): CASS = 10% of 24x = 9,720 lei (cap)
+ *
+ * CASS is declared by the associate (persoana fizica) via D212, paid annually (May 25).
  */
 
 import type { CASSDividendResult } from "./types";
@@ -29,10 +31,11 @@ export function calculateCASSDividend(
   const {
     CASS_DIVIDEND_RATE,
     CASS_DIVIDEND_THRESHOLD_6X,
-    CASS_DIVIDEND_CAP_60X,
+    CASS_DIVIDEND_THRESHOLD_12X,
+    CASS_DIVIDEND_CAP_24X,
   } = SRL_CONSTANTS_2026;
 
-  const cassApplies = annualDividendsTotal > CASS_DIVIDEND_THRESHOLD_6X;
+  const cassApplies = annualDividendsTotal >= CASS_DIVIDEND_THRESHOLD_6X;
   const remainingBeforeThreshold = cassApplies
     ? 0
     : round2(CASS_DIVIDEND_THRESHOLD_6X - annualDividendsTotal);
@@ -45,23 +48,34 @@ export function calculateCASSDividend(
   let cassAmount = 0;
 
   if (cassApplies) {
-    // CASS base is the dividend amount, capped at 60x minimum wages
-    cassBase = Math.min(annualDividendsTotal, CASS_DIVIDEND_CAP_60X);
+    // Tiered CASS base: 6x, 12x, or 24x
+    if (annualDividendsTotal >= CASS_DIVIDEND_CAP_24X) {
+      cassBase = CASS_DIVIDEND_CAP_24X;
+    } else if (annualDividendsTotal >= CASS_DIVIDEND_THRESHOLD_12X) {
+      cassBase = CASS_DIVIDEND_THRESHOLD_12X;
+    } else {
+      cassBase = CASS_DIVIDEND_THRESHOLD_6X;
+    }
     cassAmount = round2(cassBase * CASS_DIVIDEND_RATE);
   }
 
   let warningMessage: string | null = null;
 
   if (cassApplies) {
-    if (annualDividendsTotal > CASS_DIVIDEND_CAP_60X) {
+    if (annualDividendsTotal >= CASS_DIVIDEND_CAP_24X) {
       warningMessage =
-        `Ati depasit pragul de 6 salarii minime (${formatLei(CASS_DIVIDEND_THRESHOLD_6X)}). ` +
-        `CASS de 10% se aplica asupra bazei de calcul, plafonata la ${formatLei(CASS_DIVIDEND_CAP_60X)} ` +
-        `(60 salarii minime brute). CASS datorat: ${formatLei(cassAmount)}.`;
+        `Ati depasit plafonul de 24 salarii minime (${formatLei(CASS_DIVIDEND_CAP_24X)}). ` +
+        `CASS de 10% se calculeaza pe baza de ${formatLei(cassBase)}. ` +
+        `CASS maxim datorat: ${formatLei(cassAmount)}.`;
+    } else if (annualDividendsTotal >= CASS_DIVIDEND_THRESHOLD_12X) {
+      warningMessage =
+        `Dividendele depasesc 12 salarii minime (${formatLei(CASS_DIVIDEND_THRESHOLD_12X)}). ` +
+        `CASS de 10% se calculeaza pe baza de ${formatLei(cassBase)}. ` +
+        `CASS datorat: ${formatLei(cassAmount)}.`;
     } else {
       warningMessage =
-        `Ati depasit pragul de 6 salarii minime (${formatLei(CASS_DIVIDEND_THRESHOLD_6X)}). ` +
-        `CASS de 10% se aplica asupra bazei de ${formatLei(cassBase)}. ` +
+        `Dividendele depasesc 6 salarii minime (${formatLei(CASS_DIVIDEND_THRESHOLD_6X)}). ` +
+        `CASS de 10% se calculeaza pe baza de ${formatLei(cassBase)}. ` +
         `CASS datorat: ${formatLei(cassAmount)}.`;
     }
   } else if (thresholdPercentage >= 80) {
@@ -77,10 +91,10 @@ export function calculateCASSDividend(
     cassAmount,
     cassRate: CASS_DIVIDEND_RATE,
     cassBase,
-    threshold: CASS_DIVIDEND_THRESHOLD_6X,
+    threshold6x: CASS_DIVIDEND_THRESHOLD_6X,
     remainingBeforeThreshold,
     thresholdPercentage,
-    cassCap: CASS_DIVIDEND_CAP_60X,
+    cassCap: CASS_DIVIDEND_CAP_24X,
     warningMessage,
   };
 }

@@ -1,20 +1,18 @@
 /**
- * SRL-specific fiscal types for Fiskio.
+ * SRL-specific fiscal types for Prevo.
  * Used by all E7 SRL features: dividend simulator, CASS estimator, cash flow, D100 calendar.
+ *
+ * 2026: OUG 89/2025 eliminated micro 3% — all micros pay 1% flat.
  */
 
-import type { FiscalRegime } from "@/types";
-
-/** Micro tax regime types (subset of FiscalRegime) */
-export type SRLMicroRegime = Extract<FiscalRegime, "micro_1" | "micro_3">;
+/** Micro tax regime type — only micro_1 exists from 2026 */
+export type SRLMicroRegime = "micro_1";
 
 /** Breakdown of SRL micro tax calculation */
 export interface SRLMicroTaxBreakdown {
   /** Total annual revenue (cifra de afaceri) */
   annualRevenue: number;
-  /** Micro tax regime used */
-  regime: SRLMicroRegime;
-  /** Tax rate applied (0.01 or 0.03) */
+  /** Tax rate applied (0.01) */
   taxRate: number;
   /** Annual micro tax amount */
   annualTax: number;
@@ -30,7 +28,7 @@ export interface SRLMicroTaxBreakdown {
 export interface DividendBreakdown {
   /** Gross dividend amount declared */
   grossDividend: number;
-  /** Dividend tax amount (5%) */
+  /** Dividend tax amount (16%) */
   dividendTax: number;
   /** Dividend tax rate applied */
   dividendTaxRate: number;
@@ -58,15 +56,15 @@ export interface CASSDividendResult {
   cassAmount: number;
   /** The CASS rate applied (10%) */
   cassRate: number;
-  /** The base used for CASS calculation (capped at 60x minimum wages) */
+  /** The base used for CASS calculation */
   cassBase: number;
   /** The 6x minimum wage threshold */
-  threshold: number;
-  /** Amount remaining before crossing the threshold (0 if already over) */
+  threshold6x: number;
+  /** Amount remaining before crossing the 6x threshold (0 if already over) */
   remainingBeforeThreshold: number;
-  /** Percentage of threshold used (0-100+) */
+  /** Percentage of 6x threshold used (0-100+) */
   thresholdPercentage: number;
-  /** The 60x minimum wage cap for CASS base */
+  /** The CASS cap (24x minimum wages for dividends) */
   cassCap: number;
   /** Warning message in Romanian (null if no warning) */
   warningMessage: string | null;
@@ -74,11 +72,9 @@ export interface CASSDividendResult {
 
 /** SRL fiscal constants for a given year */
 export interface SRLFiscalConstants {
-  /** Micro tax rate for 1% regime */
-  MICRO_TAX_RATE_1: number;
-  /** Micro tax rate for 3% regime */
-  MICRO_TAX_RATE_3: number;
-  /** Dividend tax rate */
+  /** Micro tax rate (1% for all micros from 2026) */
+  MICRO_TAX_RATE: number;
+  /** Dividend tax rate (16% from 2026) */
   DIVIDEND_TAX_RATE: number;
   /** CASS rate on dividends */
   CASS_DIVIDEND_RATE: number;
@@ -86,8 +82,12 @@ export interface SRLFiscalConstants {
   MINIMUM_GROSS_SALARY_MONTHLY: number;
   /** CASS threshold: 6x minimum gross salary (annual) */
   CASS_DIVIDEND_THRESHOLD_6X: number;
-  /** CASS cap: 60x minimum gross salary (annual) */
-  CASS_DIVIDEND_CAP_60X: number;
+  /** CASS threshold: 12x minimum gross salary */
+  CASS_DIVIDEND_THRESHOLD_12X: number;
+  /** CASS cap: 24x minimum gross salary (for dividends) */
+  CASS_DIVIDEND_CAP_24X: number;
+  /** Revenue ceiling for micro status (EUR) */
+  MICRO_REVENUE_CEILING_EUR: number;
   /** Fiscal year */
   FISCAL_YEAR: number;
 }

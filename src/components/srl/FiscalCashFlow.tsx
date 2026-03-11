@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import type { SRLMicroRegime } from "@/lib/fiscal/srl";
 import { calculateQuarterlyMicroTax } from "@/lib/fiscal/srl";
 import { SRL_CONSTANTS_2026 } from "@/lib/fiscal/srl";
 
@@ -35,13 +34,12 @@ const MONTH_LABELS = [
 ];
 
 interface FiscalCashFlowProps {
-  initialRegime: SRLMicroRegime;
+  initialRegime?: string;
 }
 
 type InputMode = "monthly" | "average";
 
-export function FiscalCashFlow({ initialRegime }: FiscalCashFlowProps) {
-  const [regime, setRegime] = useState<SRLMicroRegime>(initialRegime);
+export function FiscalCashFlow({ initialRegime: _initialRegime }: FiscalCashFlowProps) {
   const [inputMode, setInputMode] = useState<InputMode>("average");
   const [averageRevenue, setAverageRevenue] = useState<string>("");
   const [monthlyRevenues, setMonthlyRevenues] = useState<string[]>(
@@ -65,7 +63,7 @@ export function FiscalCashFlow({ initialRegime }: FiscalCashFlowProps) {
 
     return quarters.map((months, i) => {
       const quarterRevenue = months.reduce((sum, m) => sum + m, 0);
-      const taxAmount = calculateQuarterlyMicroTax(quarterRevenue, regime);
+      const taxAmount = calculateQuarterlyMicroTax(quarterRevenue);
 
       cumulativeRevenue += quarterRevenue;
       cumulativeTax += taxAmount;
@@ -81,12 +79,12 @@ export function FiscalCashFlow({ initialRegime }: FiscalCashFlowProps) {
         netAfterTax: quarterRevenue - taxAmount,
       };
     });
-  }, [regime, inputMode, averageRevenue, monthlyRevenues]);
+  }, [inputMode, averageRevenue, monthlyRevenues]);
 
   const totalRevenue = quarterlyData[3]?.cumulativeRevenue ?? 0;
   const totalTax = quarterlyData[3]?.cumulativeTax ?? 0;
   const maxRevenue = Math.max(...quarterlyData.map((q) => q.revenue), 1);
-  const taxRate = regime === "micro_1" ? "1%" : "3%";
+  const taxRate = "1%";
 
   function updateMonthlyRevenue(index: number, value: string) {
     const updated = [...monthlyRevenues];
@@ -101,35 +99,6 @@ export function FiscalCashFlow({ initialRegime }: FiscalCashFlowProps) {
         <h3 className="mb-4 text-sm font-semibold text-foreground">
           Configurare
         </h3>
-
-        {/* Regime selector */}
-        <div className="mb-4">
-          <label className="mb-1.5 block text-sm font-medium text-foreground">
-            Regim fiscal
-          </label>
-          <div className="flex gap-2">
-            <button
-              onClick={() => setRegime("micro_1")}
-              className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-                regime === "micro_1"
-                  ? "bg-primary-600 text-white"
-                  : "bg-secondary-100 text-secondary-600 hover:bg-secondary-200"
-              }`}
-            >
-              Micro 1%
-            </button>
-            <button
-              onClick={() => setRegime("micro_3")}
-              className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-                regime === "micro_3"
-                  ? "bg-primary-600 text-white"
-                  : "bg-secondary-100 text-secondary-600 hover:bg-secondary-200"
-              }`}
-            >
-              Micro 3%
-            </button>
-          </div>
-        </div>
 
         {/* Input mode toggle */}
         <div className="mb-4">

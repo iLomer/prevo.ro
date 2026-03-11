@@ -106,9 +106,9 @@ export async function POST(request: Request) {
   for (const email of emailsToSend) {
     // In production, this would call Resend API:
     // await resend.emails.send({
-    //   from: 'Fiskio <alerte@pricepo.ro>',
+    //   from: 'Prevo <alerte@pricepo.ro>',
     //   to: [userEmail],
-    //   subject: `Fiskio: ${email.deadlineName} - ${email.daysUntil} zile ramase`,
+    //   subject: `Prevo: ${email.deadlineName} - ${email.daysUntil} zile ramase`,
     //   html: `...`
     // });
 

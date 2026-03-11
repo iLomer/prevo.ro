@@ -2,7 +2,6 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { SRLOverview } from "@/components/srl/SRLOverview";
 import type { FiscalRegime } from "@/types";
-import type { SRLMicroRegime } from "@/lib/fiscal/srl";
 
 export default async function SituatieFinanciaraPage() {
   const supabase = await createClient();
@@ -27,7 +26,7 @@ export default async function SituatieFinanciaraPage() {
 
   const regime = profile.regime as FiscalRegime;
 
-  if (regime !== "micro_1" && regime !== "micro_3") {
+  if (regime !== "micro_1") {
     redirect("/panou");
   }
 
@@ -39,7 +38,7 @@ export default async function SituatieFinanciaraPage() {
           Vedere completa: venituri, impozit micro, dividende, CASS si net in mana — totul intr-un singur loc.
         </p>
       </div>
-      <SRLOverview regime={regime as SRLMicroRegime} />
+      <SRLOverview />
     </div>
   );
 }

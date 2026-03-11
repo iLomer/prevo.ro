@@ -1,10 +1,14 @@
 import type { Metadata, Viewport } from "next";
+import { FeedbackBubble } from "@/components/feedback/FeedbackBubble";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Fiskio",
-    template: "%s | Fiskio",
+    default: "Prevo",
+    template: "%s | Prevo",
+  },
+  icons: {
+    icon: "/icon.svg",
   },
   description:
     "Prima platforma de educatie fiscala pentru PFA si SRL din Romania. " +
@@ -19,11 +23,11 @@ export const metadata: Metadata = {
     "contabilitate PFA",
     "fara contabil",
   ],
-  authors: [{ name: "Fiskio" }],
+  authors: [{ name: "Prevo" }],
   openGraph: {
     type: "website",
     locale: "ro_RO",
-    siteName: "Fiskio",
+    siteName: "Prevo",
   },
 };
 
@@ -41,6 +45,7 @@ export default function RootLayout({
     <html lang="ro">
       <body className="antialiased">
         {children}
+        <FeedbackBubble />
       </body>
     </html>
   );

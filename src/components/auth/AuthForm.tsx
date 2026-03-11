@@ -4,6 +4,7 @@ import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Logo } from "@/components/ui/Logo";
 
 const ERROR_MESSAGES: Record<string, string> = {
   "Invalid login credentials": "Email sau parola incorecta",
@@ -114,15 +115,18 @@ export function AuthForm({ mode }: AuthFormProps) {
   }
 
   return (
-    <div className="w-full max-w-md mx-auto px-4">
-      <div className="mb-8 text-center">
-        <h1 className="text-2xl font-bold text-foreground">
+    <div className="w-full max-w-md mx-auto">
+      <div className="mb-10 text-center">
+        <div className="mb-6 flex justify-center">
+          <Logo size="lg" className="text-secondary-900" />
+        </div>
+        <h1 className="text-2xl font-bold text-secondary-900">
           {isSignUp ? "Creeaza un cont" : "Autentificare"}
         </h1>
-        <p className="mt-2 text-secondary-500">
+        <p className="mt-2 text-sm text-secondary-500">
           {isSignUp
             ? "Inregistreaza-te pentru a-ti personaliza experienta fiscala"
-            : "Conecteaza-te la contul tau Fiskio"}
+            : "Conecteaza-te la contul tau Prevo"}
         </p>
       </div>
 
@@ -139,7 +143,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         <div>
           <label
             htmlFor="email"
-            className="block text-sm font-medium text-foreground mb-1"
+            className="block text-sm font-medium text-secondary-700 mb-1"
           >
             Email
           </label>
@@ -150,7 +154,7 @@ export function AuthForm({ mode }: AuthFormProps) {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="exemplu@email.com"
             autoComplete="email"
-            className="w-full rounded-lg border border-secondary-300 bg-background px-3 py-2 text-foreground placeholder:text-secondary-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+            className="w-full rounded-lg border border-secondary-300 bg-white px-3 py-2.5 text-secondary-900 shadow-sm placeholder:text-secondary-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
           />
           {errors.email && (
             <p className="mt-1 text-sm text-error-600">{errors.email}</p>
@@ -160,7 +164,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         <div>
           <label
             htmlFor="password"
-            className="block text-sm font-medium text-foreground mb-1"
+            className="block text-sm font-medium text-secondary-700 mb-1"
           >
             Parola
           </label>
@@ -171,7 +175,7 @@ export function AuthForm({ mode }: AuthFormProps) {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Minimum 8 caractere"
             autoComplete={isSignUp ? "new-password" : "current-password"}
-            className="w-full rounded-lg border border-secondary-300 bg-background px-3 py-2 text-foreground placeholder:text-secondary-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+            className="w-full rounded-lg border border-secondary-300 bg-white px-3 py-2.5 text-secondary-900 shadow-sm placeholder:text-secondary-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
           />
           {errors.password && (
             <p className="mt-1 text-sm text-error-600">{errors.password}</p>
@@ -182,7 +186,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           <div>
             <label
               htmlFor="confirmPassword"
-              className="block text-sm font-medium text-foreground mb-1"
+              className="block text-sm font-medium text-secondary-700 mb-1"
             >
               Confirma parola
             </label>
@@ -193,7 +197,7 @@ export function AuthForm({ mode }: AuthFormProps) {
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Repeta parola"
               autoComplete="new-password"
-              className="w-full rounded-lg border border-secondary-300 bg-background px-3 py-2 text-foreground placeholder:text-secondary-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+              className="w-full rounded-lg border border-secondary-300 bg-white px-3 py-2.5 text-secondary-900 shadow-sm placeholder:text-secondary-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
             />
             {errors.confirmPassword && (
               <p className="mt-1 text-sm text-error-600">
@@ -206,7 +210,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full rounded-lg bg-primary-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500/20 disabled:cursor-not-allowed disabled:opacity-60"
+          className="w-full rounded-lg bg-secondary-900 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-secondary-800 focus:outline-none focus:ring-2 focus:ring-secondary-500/20 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isLoading
             ? isSignUp

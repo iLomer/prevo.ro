@@ -3,10 +3,11 @@
  * All functions are pure -- no side effects, no Supabase calls.
  * All monetary values are in lei, rounded to 2 decimals.
  *
- * 2026 rates:
- * - CAS: 25% of taxable base
- * - CASS: 10% of taxable base, with 6x/12x minimum wage thresholds
- * - Income tax: 10% of taxable base (after CAS/CASS deduction for sistem real)
+ * 2026 rates (OUG 8/2026, OUG 89/2025):
+ * - CAS: 25% — 0 below 12x, 25% of 12x for 12-24x, 25% of 24x above 24x
+ * - CASS: 10% — 10% of 6x (floor) below 6x, 10% of actual 6-72x, 10% of 72x (cap)
+ * - Income tax: 10% of taxable base (after CAS + CASS deduction)
+ * - Bonus: 3% discount on income tax if D212 filed + paid by April 15
  */
 
 import type { FiscalRegime } from "@/types";
@@ -22,13 +23,10 @@ function round2(value: number): number {
 /**
  * Calculate CAS (Contributia de Asigurari Sociale) -- 25%.
  *
- * For norma_venit: 25% of 12x minimum gross salary (if norma >= 12x min salary)
- *   or 0 if income is below 12x minimum salary threshold.
- * For sistem_real: 25% of 12x minimum gross salary (if net income >= 12x min salary)
- *   or 0 if net income is below threshold.
- *
- * CAS is mandatory if annual income >= 12x minimum gross salary.
- * The base for CAS is always 12x minimum gross salary (not actual income).
+ * CAS is mandatory if annual taxable base >= 12x minimum gross salary.
+ * - Below 12x (48,600 lei): 0 (optional)
+ * - 12x to 24x (48,600 - 97,200 lei): 25% of 12x = 12,150 lei
+ * - Above 24x (97,200 lei): 25% of 24x = 24,300 lei
  */
 export function calculateCAS(
   income: number,
@@ -36,12 +34,16 @@ export function calculateCAS(
   expenses: number = 0,
   caenCode?: string
 ): number {
-  const { CAS_RATE, MINIMUM_GROSS_SALARY_ANNUAL } = FISCAL_CONSTANTS_2026;
+  const { CAS_RATE, CAS_THRESHOLD_12X, CAS_THRESHOLD_24X } = FISCAL_CONSTANTS_2026;
 
   const taxableBase = getTaxableBase(income, regime, expenses, caenCode);
 
-  if (taxableBase >= MINIMUM_GROSS_SALARY_ANNUAL) {
-    return round2(MINIMUM_GROSS_SALARY_ANNUAL * CAS_RATE);
+  if (taxableBase >= CAS_THRESHOLD_24X) {
+    return round2(CAS_THRESHOLD_24X * CAS_RATE);
+  }
+
+  if (taxableBase >= CAS_THRESHOLD_12X) {
+    return round2(CAS_THRESHOLD_12X * CAS_RATE);
   }
 
   return 0;
@@ -50,10 +52,12 @@ export function calculateCAS(
 /**
  * Calculate CASS (Contributia de Asigurari Sociale de Sanatate) -- 10%.
  *
- * CASS thresholds (2026):
- * - Income < 6x minimum salary: no CASS due
- * - Income >= 6x and < 12x minimum salary: 10% of 6x minimum salary
- * - Income >= 12x minimum salary: 10% of 12x minimum salary
+ * CASS 2026 rules:
+ * - Below 6x (24,300 lei): 10% of 6x = 2,430 lei (minimum floor)
+ *   Exception: 0 if also employed and paying CASS through salary — we can't know this,
+ *   so we always show the minimum floor with a note.
+ * - 6x to 72x (24,300 - 291,600 lei): 10% of actual taxable base
+ * - Above 72x (291,600 lei): 10% of 72x = 29,160 lei (cap)
  */
 export function calculateCASS(
   income: number,
@@ -64,20 +68,26 @@ export function calculateCASS(
   const {
     CASS_RATE,
     CASS_THRESHOLD_6X,
-    CASS_THRESHOLD_12X,
+    CASS_CAP_72X,
   } = FISCAL_CONSTANTS_2026;
 
   const taxableBase = getTaxableBase(income, regime, expenses, caenCode);
 
-  if (taxableBase >= CASS_THRESHOLD_12X) {
-    return round2(CASS_THRESHOLD_12X * CASS_RATE);
+  // If no income at all, no CASS
+  if (taxableBase <= 0) return 0;
+
+  // Cap at 72x
+  if (taxableBase >= CASS_CAP_72X) {
+    return round2(CASS_CAP_72X * CASS_RATE);
   }
 
+  // Proportional between 6x and 72x
   if (taxableBase >= CASS_THRESHOLD_6X) {
-    return round2(CASS_THRESHOLD_6X * CASS_RATE);
+    return round2(taxableBase * CASS_RATE);
   }
 
-  return 0;
+  // Below 6x: minimum floor of 10% of 6x
+  return round2(CASS_THRESHOLD_6X * CASS_RATE);
 }
 
 /**
@@ -85,7 +95,7 @@ export function calculateCASS(
  *
  * For norma_venit: 10% of the norma de venit value.
  * For sistem_real: 10% of (net income - CAS - CASS).
- *   CAS and CASS are deductible from the income tax base.
+ *   Both CAS and CASS are deductible from the income tax base (since 2024).
  */
 export function calculateIncomeTax(
   income: number,
@@ -98,10 +108,12 @@ export function calculateIncomeTax(
   if (regime === "norma_venit") {
     const normaValue = caenCode ? getNormaDeVenit(caenCode) : null;
     const base = normaValue ?? income;
+    // For norma, CAS and CASS are NOT deducted from the norma base for income tax
+    // Income tax = 10% of norma value directly
     return round2(base * INCOME_TAX_RATE);
   }
 
-  // Sistem real: income tax base = net income - CAS - CASS
+  // Sistem real: income tax base = net income - CAS - CASS (both deductible since 2024)
   const netIncome = Math.max(0, income - expenses);
   const cas = calculateCAS(income, regime, expenses, caenCode);
   const cass = calculateCASS(income, regime, expenses, caenCode);

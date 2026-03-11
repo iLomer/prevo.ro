@@ -226,7 +226,7 @@ export function DecizieAsociatPreview({ formData }: DecizieAsociatPreviewProps) 
             <p>
               Document generat automat. Verificati conformitatea cu legislatia in vigoare.
             </p>
-            <p>Generat cu Fiskio -- platforma de educatie fiscala</p>
+            <p>Generat cu Prevo -- platforma de educatie fiscala</p>
           </div>
         </div>
       </div>

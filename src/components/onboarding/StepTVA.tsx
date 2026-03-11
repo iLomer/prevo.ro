@@ -6,27 +6,27 @@ interface StepTVAProps {
 export function StepTVA({ value, onChange }: StepTVAProps) {
   return (
     <div>
-      <h2 className="text-xl font-semibold text-foreground mb-2">
+      <h2 className="text-xl font-semibold text-secondary-900 mb-2">
         Esti platitor de TVA?
       </h2>
-      <p className="text-secondary-500 mb-6">
+      <p className="text-secondary-500 mb-6 text-sm">
         Daca ai depasit plafonul de 300.000 lei sau te-ai inregistrat voluntar
         in scopuri de TVA, selecteaza &quot;Platitor TVA&quot;.
       </p>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-2">
         <button
           type="button"
           onClick={() => onChange(false)}
-          className={`rounded-xl border-2 p-5 text-left transition-all ${
+          className={`rounded-xl border p-5 text-left transition-all ${
             value === false
-              ? "border-primary-500 bg-primary-50"
-              : "border-secondary-200 hover:border-secondary-300"
+              ? "border-primary-400 bg-primary-50 shadow-sm"
+              : "border-secondary-200 bg-white hover:border-secondary-300 hover:shadow-sm"
           }`}
         >
           <span
             className={`text-lg font-bold ${
-              value === false ? "text-primary-700" : "text-foreground"
+              value === false ? "text-primary-700" : "text-secondary-900"
             }`}
           >
             Neplatitor TVA
@@ -40,15 +40,15 @@ export function StepTVA({ value, onChange }: StepTVAProps) {
         <button
           type="button"
           onClick={() => onChange(true)}
-          className={`rounded-xl border-2 p-5 text-left transition-all ${
+          className={`rounded-xl border p-5 text-left transition-all ${
             value === true
-              ? "border-primary-500 bg-primary-50"
-              : "border-secondary-200 hover:border-secondary-300"
+              ? "border-primary-400 bg-primary-50 shadow-sm"
+              : "border-secondary-200 bg-white hover:border-secondary-300 hover:shadow-sm"
           }`}
         >
           <span
             className={`text-lg font-bold ${
-              value === true ? "text-primary-700" : "text-foreground"
+              value === true ? "text-primary-700" : "text-secondary-900"
             }`}
           >
             Platitor TVA

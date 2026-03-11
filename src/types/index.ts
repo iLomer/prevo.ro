@@ -1,5 +1,5 @@
 /**
- * Shared TypeScript types for Fiskio.
+ * Shared TypeScript types for Prevo.
  * Add domain-specific types in separate files as the project grows.
  */
 
@@ -8,8 +8,7 @@ export type EntityType = "pfa" | "srl";
 export type FiscalRegime =
   | "norma_venit"
   | "sistem_real"
-  | "micro_1"
-  | "micro_3";
+  | "micro_1";
 
 export type TVAStatus = "platitor" | "neplatitor";
 
@@ -24,18 +23,6 @@ export interface FiscalProfile {
   updated_at: string;
 }
 
-export interface Transaction {
-  id: string;
-  user_id: string;
-  type: "incasare" | "plata";
-  amount: number;
-  description: string;
-  category: string | null;
-  document_number: string | null;
-  transaction_date: string;
-  created_at: string;
-  updated_at: string;
-}
 
 export interface AlertPreference {
   id: string;

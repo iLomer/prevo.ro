@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AlertPreferences } from "@/components/alerts";
 import { FiscalCalendar } from "@/components/calendar";
-import type { FiscalRegime, TVAStatus } from "@/types";
+import type { FiscalRegime, TVAStatus, EntityType } from "@/types";
 
 export default async function AlertsPage() {
   const supabase = await createClient();
@@ -17,7 +17,7 @@ export default async function AlertsPage() {
 
   const { data: profile } = await supabase
     .from("fiscal_profiles")
-    .select("regime, tva_status")
+    .select("entity_type, regime, tva_status")
     .eq("id", user.id)
     .single();
 
@@ -25,6 +25,7 @@ export default async function AlertsPage() {
     redirect("/onboarding");
   }
 
+  const entityType = profile.entity_type as EntityType;
   const regime = profile.regime as FiscalRegime;
   const tvaStatus: TVAStatus = profile.tva_status ? "platitor" : "neplatitor";
 
@@ -49,9 +50,9 @@ export default async function AlertsPage() {
         {/* Upcoming deadlines preview */}
         <section>
           <h2 className="mb-3 text-lg font-semibold text-foreground">
-            Termene in urmatoarele 30 de zile
+            Termene fiscale 2026
           </h2>
-          <FiscalCalendar regime={regime} tvaStatus={tvaStatus} />
+          <FiscalCalendar regime={regime} tvaStatus={tvaStatus} entityType={entityType} days={365} />
         </section>
       </div>
     </div>

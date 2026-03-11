@@ -91,7 +91,7 @@ export function CASSDividendEstimator() {
                 Prag CASS: 6 salarii minime
               </span>
               <span className="text-sm font-medium text-secondary-600">
-                {formatLei(result.threshold)} lei
+                {formatLei(result.threshold6x)} lei
               </span>
             </div>
             <div className="h-4 w-full overflow-hidden rounded-full bg-secondary-100">
@@ -102,7 +102,7 @@ export function CASSDividendEstimator() {
             </div>
             <div className="mt-2 flex items-center justify-between text-xs text-secondary-500">
               <span>0 lei</span>
-              <span>{formatLei(result.threshold)} lei</span>
+              <span>{formatLei(result.threshold6x)} lei</span>
             </div>
             <p className="mt-2 text-center text-sm font-medium text-secondary-600">
               {result.thresholdPercentage.toFixed(0)}% din prag
@@ -140,7 +140,7 @@ export function CASSDividendEstimator() {
               />
               <DetailRow
                 label="Prag CASS (6 x salariul minim brut)"
-                value={`${formatLei(result.threshold)} lei`}
+                value={`${formatLei(result.threshold6x)} lei`}
               />
               <DetailRow
                 label="CASS se aplica?"
@@ -160,7 +160,7 @@ export function CASSDividendEstimator() {
                     value={`${formatLei(result.cassBase)} lei`}
                   />
                   <DetailRow
-                    label="Plafon CASS (60 x salariul minim)"
+                    label="Plafon CASS (24 x salariul minim)"
                     value={`${formatLei(result.cassCap)} lei`}
                   />
                   <div className="border-t border-secondary-200 pt-3">
@@ -178,26 +178,25 @@ export function CASSDividendEstimator() {
           {/* Educational section */}
           <div className="rounded-xl border border-primary-200 bg-primary-50 p-4">
             <h3 className="mb-2 text-sm font-semibold text-primary-800">
-              Regula 6/60 -- Ce trebuie sa stii
+              Regula 6/12/24 -- Ce trebuie sa stii
             </h3>
             <ul className="space-y-2 text-sm leading-relaxed text-primary-700">
               <li>
                 Daca totalul dividendelor brute distribuite intr-un an depaseste
-                6 salarii minime brute pe economie ({formatLei(result.threshold)} lei in 2026),
+                6 salarii minime brute pe economie ({formatLei(result.threshold6x)} lei in 2026),
                 datorezi CASS de 10%.
               </li>
               <li>
-                Baza de calcul pentru CASS este suma dividendelor, dar plafonata
-                la 60 salarii minime brute ({formatLei(result.cassCap)} lei in 2026).
-                Chiar daca distribui mai mult, CASS nu depaseste{" "}
-                {formatLei(result.cassCap * result.cassRate)} lei.
+                CASS pe dividende este in trepte: baza de calcul este 6, 12 sau 24 salarii minime,
+                in functie de totalul dividendelor. Plafonul maxim este de 24 salarii minime
+                ({formatLei(result.cassCap)} lei in 2026) — CASS maxim: {formatLei(result.cassCap * result.cassRate)} lei.
               </li>
               <li>
                 CASS pe dividende se declara de catre asociat (nu de SRL) prin
                 Declaratia Unica (D212), pana pe 25 mai a anului urmator.
               </li>
               <li>
-                Daca ramaneti sub pragul de {formatLei(result.threshold)} lei,
+                Daca ramaneti sub pragul de {formatLei(result.threshold6x)} lei,
                 nu datorati CASS pe dividende. Planificati distributiile in consecinta.
               </li>
             </ul>

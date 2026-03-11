@@ -2,7 +2,6 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { FiscalCashFlow } from "@/components/srl/FiscalCashFlow";
 import type { FiscalRegime } from "@/types";
-import type { SRLMicroRegime } from "@/lib/fiscal/srl";
 
 export const dynamic = "force-dynamic";
 
@@ -24,9 +23,6 @@ export default async function CashFlowPage() {
     .single();
 
   const regime = profile?.regime as FiscalRegime | undefined;
-  const srlRegime: SRLMicroRegime =
-    regime === "micro_1" || regime === "micro_3" ? regime : "micro_1";
-
   return (
     <div className="pb-20 lg:pb-0">
       <div className="mb-6">
@@ -45,7 +41,7 @@ export default async function CashFlowPage() {
         </p>
       </div>
 
-      <FiscalCashFlow initialRegime={srlRegime} />
+      <FiscalCashFlow />
     </div>
   );
 }

@@ -9,7 +9,7 @@ const steps = [
     number: "02",
     title: "Primesti calendarul tau personalizat",
     description:
-      "Fiskio iti arata exact ce declaratii ai de depus, termenele limita si cat datorezi. Fara surprize.",
+      "Prevo iti arata exact ce declaratii ai de depus, termenele limita si cat datorezi. Fara surprize.",
   },
   {
     number: "03",
@@ -21,43 +21,42 @@ const steps = [
     number: "04",
     title: "Devii independent fiscal",
     description:
-      "Dupa primul ciclu fiscal, stii exact ce ai de facut. Fiskio ramane instrumentul tau, nu o dependenta.",
+      "Dupa primul ciclu fiscal, stii exact ce ai de facut. Prevo ramane instrumentul tau, nu o dependenta.",
   },
 ] as const;
 
 export function HowItWorks() {
   return (
-    <section
-      id="cum-functioneaza"
-      className="bg-white px-4 py-16 sm:px-6 sm:py-24 lg:px-8"
-    >
-      <div className="mx-auto max-w-5xl">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-secondary-900 sm:text-4xl">
-            Cum functioneaza Fiskio
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-secondary-600">
-            Nu facem noi in locul tau. Te invatam sa faci singur &mdash; si sa
-            nu mai ai nevoie de nimeni.
-          </p>
-        </div>
+    <section id="cum-functioneaza" className="relative bg-secondary-50 px-6 py-24 sm:py-32">
+      <div className="mx-auto max-w-6xl">
+        <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-secondary-400">
+          Cum functioneaza
+        </p>
+        <h2 className="mt-4 max-w-lg text-3xl font-bold tracking-tight text-secondary-900 sm:text-4xl">
+          Nu facem noi in locul tau. Te invatam sa faci singur.
+        </h2>
 
-        <div className="mt-12 grid gap-8 sm:mt-16 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="relative mt-16 grid gap-8 sm:mt-20 md:grid-cols-4 md:gap-0">
+          <div className="pointer-events-none absolute left-0 right-0 top-6 hidden h-px bg-gradient-to-r from-accent-400/40 via-primary-400/20 to-transparent md:block" />
+
           {steps.map((step) => (
-            <div key={step.number} className="relative">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary-100 text-lg font-bold text-primary-700">
+            <div key={step.number} className="relative md:pr-8">
+              <div className="relative z-10 mb-5 flex h-12 w-12 items-center justify-center rounded-full border border-accent-200 bg-accent-50 font-mono text-sm font-semibold text-accent-700">
                 {step.number}
               </div>
-              <h3 className="text-lg font-semibold text-secondary-900">
+
+              <h3 className="text-[15px] font-semibold text-secondary-900">
                 {step.title}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-secondary-600">
+              <p className="mt-2 text-sm leading-relaxed text-secondary-500">
                 {step.description}
               </p>
             </div>
           ))}
         </div>
       </div>
+
+      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-secondary-200 to-transparent" />
     </section>
   );
 }

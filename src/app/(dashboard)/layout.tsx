@@ -23,7 +23,7 @@ export default async function DashboardLayout({
   // Check if user has completed onboarding
   const { data: profile, error } = await supabase
     .from("fiscal_profiles")
-    .select("id, entity_type, regime")
+    .select("id, entity_type, regime, tva_status, caen_code")
     .eq("id", user.id)
     .single();
 

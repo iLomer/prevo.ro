@@ -2,11 +2,17 @@
  * SRL dividend net calculation.
  * Pure function -- no side effects, no Supabase calls.
  *
- * Dividend distribution flow:
+ * Dividend distribution flow (2026):
  * 1. SRL declares gross dividend from net accounting profit
- * 2. Dividend tax (5%) is withheld at source by the SRL
- * 3. If annual dividends > 6x minimum wages, associate owes CASS (10%)
+ * 2. Dividend tax (16%) is withheld at source by the SRL
+ * 3. If annual dividends > 6x minimum wages, associate owes CASS (10%) via D212
  * 4. Net in hand = gross - dividend tax - CASS (if applicable)
+ *
+ * Dividend tax rate history:
+ * - Before 2023: 5%
+ * - 2023-2024: 8%
+ * - 2025: 10%
+ * - From 2026: 16%
  */
 
 import type { DividendBreakdown } from "./types";
@@ -31,18 +37,15 @@ export function calculateDividendNet(
 ): DividendBreakdown {
   const { DIVIDEND_TAX_RATE } = SRL_CONSTANTS_2026;
 
-  // Dividend tax: 5% withheld at source
+  // Dividend tax: 16% withheld at source
   const dividendTax = round2(grossDividend * DIVIDEND_TAX_RATE);
 
   // CASS on dividends: check threshold against annual total
   const cassResult = calculateCASSDividend(annualDividendsTotal);
 
-  // CASS applies to the full annual amount, but we attribute proportionally to this dividend
-  // For simplicity, we show whether CASS applies based on the running total
   const cassApplies = cassResult.cassApplies;
 
   // Calculate CASS attributable to this specific dividend
-  // If total annual > threshold, this dividend contributes to the CASS obligation
   let cassAmount = 0;
   if (cassApplies && annualDividendsTotal > 0) {
     // Proportional CASS: this dividend's share of total CASS obligation

@@ -15,20 +15,18 @@ export default async function OnboardingPage() {
     redirect("/autentificare");
   }
 
-  // Check if user already has a fiscal profile
   const { data: profile, error } = await supabase
     .from("fiscal_profiles")
     .select("id")
     .eq("id", user.id)
     .single();
 
-  // If profile exists, go to dashboard. If table doesn't exist or no row, show onboarding.
   if (profile && !error) {
     redirect("/panou");
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center py-12">
+    <main className="flex min-h-screen items-center justify-center bg-background px-4 py-12">
       <OnboardingWizard />
     </main>
   );

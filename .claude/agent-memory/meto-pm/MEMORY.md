@@ -11,6 +11,25 @@
 - E4 complete (4/4 tasks done)
 - E5 complete (5/5 tasks done)
 - E7 sliced into 7 tasks (slice-026 to slice-032), all in tasks-todo.md
+- E8 DROPPED (D008) -- all 4 tasks (slice-033 to slice-036) marked DROPPED in backlog
+
+## Product Pivot: No Bookkeeping (D008, 2026-03-11)
+- Registru (transaction ledger) feature dropped entirely
+- E8 (CAEN Expense Deductibility Guide) dropped -- depended on Registru
+- ANAF e-Factura data is read-only input for estimator/alerts/calendar
+- New principle added to product-vision.md: "reads data to power smarter education, never becomes bookkeeping tool"
+- DashboardShell.tsx updated: Registru removed from both PFA_NAV_ITEMS and SRL_NAV_ITEMS
+- The `ledger` icon definition was also removed from icons object (no longer used)
+
+## Files Flagged for Developer Deletion (D008 cleanup)
+These files/routes need to be deleted by @meto-developer -- PM does not own /src:
+- `src/app/(dashboard)/registru/` (page)
+- `src/components/transactions/TransactionLedger.tsx`
+- `src/app/api/transactions/route.ts`
+- `src/app/api/transactions/[id]/route.ts`
+- `supabase/migrations/20260311160000_create_transactions.sql`
+- `supabase/migrations/20260311170000_add_payment_method_to_transactions.sql`
+- Remove "registru" from middleware.ts protected routes
 
 ## Task Dependencies (current sprint -- E7)
 - **Wave 1 (no deps, parallel):** slice-026 (SRL fiscal logic, L) + slice-032 (SRL dashboard nav, S)
@@ -35,14 +54,14 @@
 - D100 quarterly deadlines: Apr 25, Jul 25, Oct 25, Jan 25
 
 ## Patterns Found
-- 7 epics total, aligned with 3 MVP phases
-- Romanian language only (D007), education not accounting (D002), PFA first (D003)
+- 8 epics total (7 active + E8 dropped), aligned with 3 MVP phases
+- Romanian language only (D007), education not accounting (D002), PFA first (D003), no bookkeeping (D008)
 - Tailwind v4 uses @theme inline in globals.css, not tailwind.config.ts
 - Supabase client at `/src/lib/supabase/client.ts` and `server.ts`
 - PFA tax rates 2026: CAS 25%, CASS 10%, income tax 10% (sistem real)
 - D212 deadline: May 25 each year
-- 32 total tasks across 7 epics (25 done, 7 in todo)
-- DashboardShell already receives entityType prop -- conditional SRL nav is straightforward
+- 36 total tasks across 8 epics (25 done, 7 in todo, 4 DROPPED in backlog)
+- DashboardShell already receives entityType prop -- conditional nav is straightforward
 - FiscalDeadline type already supports micro_1/micro_3 regimes
 - PFA deadlines in pfa-deadlines.ts, SRL deadlines will be separate srl-deadlines.ts
 
@@ -53,8 +72,9 @@
 - No heavy chart libraries for v1 cash flow visual -- pure CSS/Tailwind bars
 
 ## Next Actions
-- After E7 complete: E6 (ANAF Integration) is the last epic -- Phase 2
-- E6 depends on E2 and E3 (both complete), can be sliced any time
+- Developer needs to delete Registru-related files (see "Files Flagged for Developer Deletion" above)
+- E7 tasks are in todo -- ready for development
+- E6 (ANAF Integration) is the last active epic -- Phase 2, not yet sliced
 - Consider updating FISCAL_CONSTANTS_2026 minimum salary from 3,700 to 4,050 as a separate chore task
 
 ## Session Log
@@ -63,3 +83,5 @@
 - **2026-03-11 (session 3):** E1 done, E2+E4 complete. Sliced E3 into 7 tasks. Total 20 tasks.
 - **2026-03-11 (session 4):** E1-E4 complete. Sliced E5 into 5 tasks. Total 25 tasks.
 - **2026-03-11 (session 5):** E1-E5 complete. Sliced E7 (SRL Features) into 7 tasks (slice-026 to slice-032). Total 32 tasks. Flagged DashboardShell.tsx conflict. E7 estimated 22-36 dev hours. 1L + 4M + 2S.
+- **2026-03-11 (session 6):** Created E8 (CAEN Expense Deductibility Guide) with 4 tasks (slice-033 to slice-036). New educational feature for PFA sistem real users. 2S + 2M, estimated 8-14 dev hours. Total 36 tasks across 8 epics.
+- **2026-03-11 (session 7):** PRODUCT PIVOT -- Dropped Registru and E8 per D008. Updated product-vision.md, decisions.md, epics.md, tasks-backlog.md, domain-map.md, DashboardShell.tsx. Flagged Registru-related files for developer deletion.

@@ -27,30 +27,30 @@ const ENTITY_OPTIONS: {
 export function StepEntityType({ value, onChange }: StepEntityTypeProps) {
   return (
     <div>
-      <h2 className="text-xl font-semibold text-foreground mb-2">
+      <h2 className="text-xl font-semibold text-secondary-900 mb-2">
         Ce tip de entitate ai?
       </h2>
-      <p className="text-secondary-500 mb-6">
-        Selecteaza tipul de entitate pentru care vrei sa folosesti Fiskio.
+      <p className="text-secondary-500 mb-6 text-sm">
+        Selecteaza tipul de entitate pentru care vrei sa folosesti Prevo.
       </p>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-2">
         {ENTITY_OPTIONS.map((option) => (
           <button
             key={option.value}
             type="button"
             onClick={() => onChange(option.value)}
-            className={`rounded-xl border-2 p-5 text-left transition-all ${
+            className={`rounded-xl border p-5 text-left transition-all ${
               value === option.value
-                ? "border-primary-500 bg-primary-50"
-                : "border-secondary-200 hover:border-secondary-300"
+                ? "border-primary-400 bg-primary-50 shadow-sm"
+                : "border-secondary-200 bg-white hover:border-secondary-300 hover:shadow-sm"
             }`}
           >
             <span
               className={`text-lg font-bold ${
                 value === option.value
                   ? "text-primary-700"
-                  : "text-foreground"
+                  : "text-secondary-900"
               }`}
             >
               {option.label}

@@ -1,19 +1,35 @@
 "use client";
 
-import type { FiscalRegime, TVAStatus } from "@/types";
-import { getUpcomingDeadlines } from "@/lib/fiscal";
+import type { FiscalRegime, TVAStatus, EntityType } from "@/types";
+import { getUpcomingDeadlines, filterDeadlinesGeneric } from "@/lib/fiscal";
+import { getAllSRLDeadlines } from "@/lib/fiscal/srl/srl-deadlines";
 import { DeadlineCard } from "./DeadlineCard";
 
 interface FiscalCalendarProps {
   regime: FiscalRegime;
   tvaStatus: TVAStatus;
+  entityType?: EntityType;
+  days?: number;
 }
 
-export function FiscalCalendar({ regime, tvaStatus }: FiscalCalendarProps) {
+export function FiscalCalendar({ regime, tvaStatus, entityType = "pfa", days = 30 }: FiscalCalendarProps) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const deadlines = getUpcomingDeadlines(regime, tvaStatus, today, 30);
+  const toDate = new Date(today);
+  toDate.setDate(toDate.getDate() + days);
+
+  let deadlines;
+  if (entityType === "srl") {
+    deadlines = filterDeadlinesGeneric(getAllSRLDeadlines(), {
+      regime,
+      tvaStatus,
+      fromDate: today,
+      toDate,
+    });
+  } else {
+    deadlines = getUpcomingDeadlines(regime, tvaStatus, today, days);
+  }
 
   if (deadlines.length === 0) {
     return (
@@ -37,7 +53,7 @@ export function FiscalCalendar({ regime, tvaStatus }: FiscalCalendarProps) {
           Totul este in regula
         </h3>
         <p className="mt-1 max-w-sm text-sm text-secondary-500">
-          Nu ai obligatii fiscale in urmatoarele 30 de zile. Poti sta linistit --
+          Nu mai ai obligatii fiscale ramase in 2026. Poti sta linistit --
           te vom anunta cand se apropie un termen.
         </p>
       </div>

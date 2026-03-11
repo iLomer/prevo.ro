@@ -6,10 +6,10 @@ interface StepCAENProps {
 export function StepCAEN({ value, onChange }: StepCAENProps) {
   return (
     <div>
-      <h2 className="text-xl font-semibold text-foreground mb-2">
+      <h2 className="text-xl font-semibold text-secondary-900 mb-2">
         Care este codul tau CAEN?
       </h2>
-      <p className="text-secondary-500 mb-6">
+      <p className="text-secondary-500 mb-6 text-sm">
         Codul CAEN defineste activitatea principala a afacerii tale. Il gasesti
         in certificatul de inregistrare sau pe portalul ONRC.
       </p>
@@ -17,7 +17,7 @@ export function StepCAEN({ value, onChange }: StepCAENProps) {
       <div>
         <label
           htmlFor="caen-code"
-          className="block text-sm font-medium text-foreground mb-1"
+          className="block text-sm font-medium text-secondary-700 mb-1"
         >
           Cod CAEN
         </label>
@@ -27,7 +27,7 @@ export function StepCAEN({ value, onChange }: StepCAENProps) {
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder="ex: 6201 - Activitati de realizare a software-ului"
-          className="w-full rounded-lg border border-secondary-300 bg-background px-3 py-2 text-foreground placeholder:text-secondary-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+          className="w-full rounded-lg border border-secondary-300 bg-white px-3 py-2.5 text-secondary-900 shadow-sm placeholder:text-secondary-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
         />
         <p className="mt-2 text-xs text-secondary-400">
           Introdu codul CAEN cu 4 cifre (ex: 6201, 6202, 7022).

@@ -25,9 +25,9 @@ const SPV_STEPS: SPVStep[] = [
   },
   {
     stepNumber: 3,
-    title: "Completeaza fiecare camp folosind valorile din Fiskio",
+    title: "Completeaza fiecare camp folosind valorile din Prevo",
     description:
-      "Foloseste rezumatul exportat din Fiskio si completeaza fiecare sectiune din formularul D212. " +
+      "Foloseste rezumatul exportat din Prevo si completeaza fiecare sectiune din formularul D212. " +
       "Valorile sunt deja calculate -- trebuie doar sa le copiezi in campurile corespunzatoare. " +
       "Foloseste butonul 'Copiaza' de langa fiecare valoare pentru a copia rapid.",
   },

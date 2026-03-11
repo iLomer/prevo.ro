@@ -7,7 +7,7 @@
 
 ---
 
-## [slice-002] -- Configure Tailwind CSS with Fiskio Design Tokens
+## [slice-002] -- Configure Tailwind CSS with Prevo Design Tokens
 **Epic:** E1 | **Size:** S | **Validated:** 2026-03-11 -- ALL PASS
 
 ---

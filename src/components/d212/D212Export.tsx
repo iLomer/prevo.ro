@@ -56,7 +56,7 @@ async function copyToClipboard(text: string): Promise<boolean> {
 
 function generatePDFContent(rows: ExportRow[], breakdown: TaxBreakdown): string {
   const lines = [
-    "FISKIO -- Rezumat D212 (Declaratia Unica)",
+    "PREVO -- Rezumat D212 (Declaratia Unica)",
     `Data generarii: ${new Date().toLocaleDateString("ro-RO")}`,
     "",
     "Contribuabil: [Completeaza cu numele tau]",
@@ -77,7 +77,7 @@ function generatePDFContent(rows: ExportRow[], breakdown: TaxBreakdown): string 
   lines.push(`Venit net dupa taxe: ${formatLei(breakdown.netIncome)} lei`);
   lines.push("");
   lines.push("---");
-  lines.push("Generat de Fiskio (pricepo.ro)");
+  lines.push("Generat de Prevo (pricepo.ro)");
   lines.push("Aceste valori sunt estimative. Verifica intotdeauna cu legislatia in vigoare.");
 
   return lines.join("\n");
@@ -103,7 +103,7 @@ export function D212Export({ breakdown, regime }: D212ExportProps) {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `fiskio-d212-rezumat-${new Date().toISOString().split("T")[0]}.txt`;
+    link.download = `prevo-d212-rezumat-${new Date().toISOString().split("T")[0]}.txt`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import type { EntityType, FiscalRegime } from "@/types";
+import { Logo } from "@/components/ui/Logo";
 import { ProgressIndicator } from "./ProgressIndicator";
 import { StepEntityType } from "./StepEntityType";
 import { StepRegime } from "./StepRegime";
@@ -39,7 +40,6 @@ export function OnboardingWizard() {
 
   function handleEntityTypeChange(value: EntityType) {
     setEntityType(value);
-    // Reset regime when entity type changes since options differ
     setRegime(null);
   }
 
@@ -96,13 +96,16 @@ export function OnboardingWizard() {
   }
 
   return (
-    <div className="w-full max-w-lg mx-auto px-4">
-      <div className="mb-6 text-center">
-        <h1 className="text-2xl font-bold text-foreground">
+    <div className="w-full max-w-lg mx-auto">
+      <div className="mb-8 text-center">
+        <div className="mb-6 flex justify-center">
+          <Logo size="lg" className="text-secondary-900" />
+        </div>
+        <h1 className="text-2xl font-bold text-secondary-900">
           Configureaza profilul fiscal
         </h1>
-        <p className="mt-1 text-secondary-500">
-          Personalizeaza Fiskio in functie de situatia ta fiscala
+        <p className="mt-2 text-sm text-secondary-500">
+          Personalizeaza Prevo in functie de situatia ta fiscala
         </p>
       </div>
 
@@ -139,7 +142,7 @@ export function OnboardingWizard() {
           type="button"
           onClick={handleBack}
           disabled={currentStep === 1}
-          className="rounded-lg border border-secondary-300 px-4 py-2 text-sm font-medium text-secondary-600 transition-colors hover:bg-secondary-50 disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-lg border border-secondary-200 px-4 py-2 text-sm font-medium text-secondary-500 transition-colors hover:border-secondary-300 hover:text-secondary-900 disabled:cursor-not-allowed disabled:opacity-40"
         >
           Inapoi
         </button>
@@ -149,7 +152,7 @@ export function OnboardingWizard() {
             type="button"
             onClick={handleNext}
             disabled={!canProceed()}
-            className="rounded-lg bg-primary-600 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-60"
+            className="rounded-lg bg-secondary-900 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-secondary-800 disabled:cursor-not-allowed disabled:opacity-60"
           >
             Continua
           </button>
@@ -158,7 +161,7 @@ export function OnboardingWizard() {
             type="button"
             onClick={handleSubmit}
             disabled={!canProceed() || isSubmitting}
-            className="rounded-lg bg-primary-600 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-60"
+            className="rounded-lg bg-secondary-900 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-secondary-800 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isSubmitting ? "Se salveaza..." : "Finalizeaza"}
           </button>

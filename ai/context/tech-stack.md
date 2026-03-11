@@ -1,4 +1,4 @@
-# Tech Stack — Fiskio (pricepo.ro)
+# Tech Stack — Prevo (pricepo.ro)
 
 ## Stack Overview
 
@@ -24,11 +24,11 @@
 
 ### ANAF Auth Flow
 1. User authenticates once with qualified digital certificate
-2. Fiskio obtains OAuth2 token, stores securely in Supabase
+2. Prevo obtains OAuth2 token, stores securely in Supabase
 3. Automatic sync from that point forward
 
 ### ANAF Limitation
-Declaration submission is NOT available programmatically. Fiskio pre-fills everything and guides the user to the final click in SPV.
+Declaration submission is NOT available programmatically. Prevo pre-fills everything and guides the user to the final click in SPV.
 
 ## Key Decisions
 | Decision | Choice | Reason |

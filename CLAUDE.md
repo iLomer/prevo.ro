@@ -1,4 +1,4 @@
-# Fiskio (pricepo.ro)
+# Prevo (pricepo.ro)
 
 Fiscal education platform for Romanian PFA and SRL owners. Teaches entrepreneurs to handle their own taxes — no accountant, no jargon, no ANAF surprises.
 

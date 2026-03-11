@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+  <defs>
+    <!-- Gradient A: teal → blue (original) -->
+    <linearGradient id="gradA" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6EE7B7"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
+    </linearGradient>
+    <!-- Gradient B: violet → cyan (alt) -->
+    <linearGradient id="gradB" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A78BFA"/>
+      <stop offset="100%" stop-color="#22D3EE"/>
+    </linearGradient>
+    <!-- Gradient C: amber → orange (warm) -->
+    <linearGradient id="gradC" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCD34D"/>
+      <stop offset="100%" stop-color="#F97316"/>
+    </linearGradient>
+    <!-- Glow dark -->
+    <radialGradient id="glowDark" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#6EE7B7" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Glow light -->
+    <radialGradient id="glowLight" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#6EE7B7" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- ================================================ -->
+  <!-- SECTION LABEL: DARK VARIANTS                     -->
+  <!-- ================================================ -->
+  <rect width="800" height="1000" fill="#F4F4F5"/>
+
+  <!-- DARK PANEL top -->
+  <rect x="0" y="0" width="800" height="440" fill="#09090B"/>
+  <!-- Section label -->
+  <text x="40" y="38" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="10" font-weight="500" letter-spacing="3.5" fill="#3F3F46">DARK</text>
+
+  <!-- ============ DARK / FULL COLOR (primary) ============ -->
+  <text x="40" y="70" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="8" letter-spacing="2.5" fill="#3F3F46">PRIMARY</text>
+
+  <!-- Icon -->
+  <rect x="40" y="82" width="68" height="68" rx="17" fill="#111113"/>
+  <rect x="40" y="82" width="68" height="68" rx="17" fill="none" stroke="#222226" stroke-width="1.2"/>
+  <ellipse cx="74" cy="116" rx="44" ry="34" fill="url(#glowDark)" opacity="0.8"/>
+  <path d="M 58 101 L 74 116 L 58 131" fill="none" stroke="url(#gradA)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 70 101 L 86 116 L 70 131" fill="none" stroke="url(#gradA)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.35"/>
+
+  <!-- Wordmark -->
+  <text x="124" y="128" font-family="-apple-system,'SF Pro Display','Helvetica Neue',sans-serif" font-size="42" font-weight="500" letter-spacing="-1.5" fill="#FAFAFA">prevo</text>
+  <rect x="125" y="137" width="14" height="1" fill="#3B82F6" opacity="0.55"/>
+  <text x="144" y="146" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="8" font-weight="300" letter-spacing="3.5" fill="#52525B">FISCAL CLARITY</text>
+
+  <!-- ============ DARK / ICON ONLY (small) ============ -->
+  <text x="40" y="178" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="8" letter-spacing="2.5" fill="#3F3F46">ICON ONLY</text>
+
+  <!-- Large icon -->
+  <rect x="40" y="190" width="90" height="90" rx="22" fill="#111113"/>
+  <rect x="40" y="190" width="90" height="90" rx="22" fill="none" stroke="#222226" stroke-width="1.2"/>
+  <ellipse cx="85" cy="235" rx="50" ry="40" fill="url(#glowDark)" opacity="0.7"/>
+  <path d="M 63 215 L 85 235 L 63 255" fill="none" stroke="url(#gradA)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 78 215 L 100 235 L 78 255" fill="none" stroke="url(#gradA)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.35"/>
+
+  <!-- Medium icon -->
+  <rect x="152" y="200" width="60" height="60" rx="15" fill="#111113"/>
+  <rect x="152" y="200" width="60" height="60" rx="15" fill="none" stroke="#222226" stroke-width="1"/>
+  <path d="M 167 220 L 182 230 L 167 240" fill="none" stroke="url(#gradA)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 177 220 L 192 230 L 177 240" fill="none" stroke="url(#gradA)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.35"/>
+
+  <!-- Small icon (favicon size) -->
+  <rect x="232" y="210" width="40" height="40" rx="10" fill="#111113"/>
+  <rect x="232" y="210" width="40" height="40" rx="10" fill="none" stroke="#222226" stroke-width="1"/>
+  <path d="M 243 222 L 252 230 L 243 238" fill="none" stroke="url(#gradA)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 251 222 L 260 230 L 251 238" fill="none" stroke="url(#gradA)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.35"/>
+
+  <!-- ============ DARK / ALT ICON ============ -->
+  <text x="320" y="70" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="8" letter-spacing="2.5" fill="#3F3F46">ALT ICON — SINGLE SLASH</text>
+
+  <!-- Alt icon A: bold single diagonal with dot — a horizon line -->
+  <rect x="320" y="82" width="68" height="68" rx="17" fill="#111113"/>
+  <rect x="320" y="82" width="68" height="68" rx="17" fill="none" stroke="#222226" stroke-width="1.2"/>
+  <ellipse cx="354" cy="116" rx="40" ry="34" fill="url(#glowDark)" opacity="0.8"/>
+  <!-- Diagonal line -->
+  <line x1="336" y1="131" x2="372" y2="101" stroke="url(#gradA)" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Dot at top right end — the "known point" -->
+  <circle cx="372" cy="101" r="4.5" fill="url(#gradA)"/>
+
+  <!-- Alt icon with wordmark -->
+  <text x="406" y="128" font-family="-apple-system,'SF Pro Display','Helvetica Neue',sans-serif" font-size="42" font-weight="500" letter-spacing="-1.5" fill="#FAFAFA">prevo</text>
+  <rect x="407" y="137" width="14" height="1" fill="#3B82F6" opacity="0.55"/>
+  <text x="426" y="146" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="8" font-weight="300" letter-spacing="3.5" fill="#52525B">FISCAL CLARITY</text>
+
+  <!-- ============ DARK / MONO ============ -->
+  <text x="320" y="178" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="8" letter-spacing="2.5" fill="#3F3F46">MONO (DARK BG)</text>
+
+  <!-- Mono white -->
+  <rect x="320" y="190" width="68" height="68" rx="17" fill="#18181B"/>
+  <rect x="320" y="190" width="68" height="68" rx="17" fill="none" stroke="#27272A" stroke-width="1.2"/>
+  <path d="M 340 209 L 354 224 L 340 239" fill="none" stroke="#FAFAFA" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 350 209 L 364 224 L 350 239" fill="none" stroke="#FAFAFA" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.35"/>
+  <text x="406" y="236" font-family="-apple-system,'SF Pro Display','Helvetica Neue',sans-serif" font-size="42" font-weight="500" letter-spacing="-1.5" fill="#FAFAFA">prevo</text>
+
+  <!-- ================================================ -->
+  <!-- LIGHT PANEL                                      -->
+  <!-- ================================================ -->
+  <rect x="0" y="440" width="800" height="560" fill="#FAFAFA"/>
+  <rect x="0" y="440" width="800" height="1" fill="#E4E4E7"/>
+
+  <text x="40" y="476" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="10" font-weight="500" letter-spacing="3.5" fill="#A1A1AA">LIGHT</text>
+
+  <!-- ============ LIGHT / PRIMARY ============ -->
+  <text x="40" y="506" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="8" letter-spacing="2.5" fill="#A1A1AA">PRIMARY</text>
+
+  <rect x="40" y="518" width="68" height="68" rx="17" fill="#F4F4F5"/>
+  <rect x="40" y="518" width="68" height="68" rx="17" fill="none" stroke="#E4E4E7" stroke-width="1.2"/>
+  <ellipse cx="74" cy="552" rx="44" ry="34" fill="url(#glowLight)" opacity="1"/>
+  <path d="M 58 537 L 74 552 L 58 567" fill="none" stroke="url(#gradA)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 70 537 L 86 552 L 70 567" fill="none" stroke="url(#gradA)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.35"/>
+
+  <text x="124" y="564" font-family="-apple-system,'SF Pro Display','Helvetica Neue',sans-serif" font-size="42" font-weight="500" letter-spacing="-1.5" fill="#09090B">prevo</text>
+  <rect x="125" y="573" width="14" height="1" fill="#3B82F6" opacity="0.55"/>
+  <text x="144" y="582" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="8" font-weight="300" letter-spacing="3.5" fill="#A1A1AA">FISCAL CLARITY</text>
+
+  <!-- ============ LIGHT / ALT ICON ============ -->
+  <text x="320" y="506" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="8" letter-spacing="2.5" fill="#A1A1AA">ALT ICON — SLASH</text>
+
+  <rect x="320" y="518" width="68" height="68" rx="17" fill="#F4F4F5"/>
+  <rect x="320" y="518" width="68" height="68" rx="17" fill="none" stroke="#E4E4E7" stroke-width="1.2"/>
+  <ellipse cx="354" cy="552" rx="40" ry="34" fill="url(#glowLight)" opacity="1"/>
+  <line x1="336" y1="567" x2="372" y2="537" stroke="url(#gradA)" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="372" cy="537" r="4.5" fill="url(#gradA)"/>
+
+  <text x="406" y="564" font-family="-apple-system,'SF Pro Display','Helvetica Neue',sans-serif" font-size="42" font-weight="500" letter-spacing="-1.5" fill="#09090B">prevo</text>
+  <rect x="407" y="573" width="14" height="1" fill="#3B82F6" opacity="0.55"/>
+  <text x="426" y="582" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="8" font-weight="300" letter-spacing="3.5" fill="#A1A1AA">FISCAL CLARITY</text>
+
+  <!-- ============ LIGHT / MONO ============ -->
+  <text x="40" y="630" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="8" letter-spacing="2.5" fill="#A1A1AA">MONO (LIGHT BG)</text>
+
+  <!-- Mono black on light -->
+  <rect x="40" y="642" width="68" height="68" rx="17" fill="#F0F0F1"/>
+  <rect x="40" y="642" width="68" height="68" rx="17" fill="none" stroke="#E4E4E7" stroke-width="1.2"/>
+  <path d="M 58 661 L 74 676 L 58 691" fill="none" stroke="#09090B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 70 661 L 86 676 L 70 691" fill="none" stroke="#09090B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.3"/>
+  <text x="124" y="688" font-family="-apple-system,'SF Pro Display','Helvetica Neue',sans-serif" font-size="42" font-weight="500" letter-spacing="-1.5" fill="#09090B">prevo</text>
+
+  <!-- ============ COLOR PALETTE STRIP ============ -->
+  <text x="40" y="756" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="8" letter-spacing="2.5" fill="#A1A1AA">BRAND COLORS</text>
+
+  <rect x="40" y="768" width="48" height="48" rx="10" fill="#09090B"/>
+  <text x="40" y="832" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="8" fill="#71717A">#09090B</text>
+
+  <rect x="108" y="768" width="48" height="48" rx="10" fill="#FAFAFA"/>
+  <rect x="108" y="768" width="48" height="48" rx="10" fill="none" stroke="#E4E4E7" stroke-width="1"/>
+  <text x="108" y="832" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="8" fill="#71717A">#FAFAFA</text>
+
+  <rect x="176" y="768" width="48" height="48" rx="10" fill="#6EE7B7"/>
+  <text x="176" y="832" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="8" fill="#71717A">#6EE7B7</text>
+
+  <rect x="244" y="768" width="48" height="48" rx="10" fill="#3B82F6"/>
+  <text x="244" y="832" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="8" fill="#71717A">#3B82F6</text>
+
+  <rect x="312" y="768" width="48" height="48" rx="10" fill="#52525B"/>
+  <text x="312" y="832" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="8" fill="#71717A">#52525B</text>
+
+  <!-- Gradient swatch -->
+  <defs>
+    <linearGradient id="swatchGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6EE7B7"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
+    </linearGradient>
+  </defs>
+  <rect x="380" y="768" width="48" height="48" rx="10" fill="url(#swatchGrad)"/>
+  <text x="380" y="832" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="8" fill="#71717A">GRADIENT</text>
+
+  <!-- Bottom label -->
+  <text x="40" y="880" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="8" font-weight="300" letter-spacing="2" fill="#D4D4D8">prevo — brand identity v1.0</text>
+
+</svg>

@@ -1,21 +1,21 @@
-# Decisions Log — Fiskio (pricepo.ro)
+# Decisions Log — Prevo (pricepo.ro)
 
 Settled decisions. Never re-debate these.
 
 ---
 
-## D001 — Product Name: Fiskio
+## D001 — Product Name: Prevo
 **Date:** 2026-03-11
-**Decision:** The product is called Fiskio, hosted at pricepo.ro
+**Decision:** The product is called Prevo, hosted at pricepo.ro
 **Alternatives considered:** Generic naming
-**Reason:** Fiskio communicates fiscal focus, is memorable, and differentiates from accounting software
-**Consequences:** All branding, copy, and metadata use "Fiskio"
+**Reason:** Prevo communicates fiscal focus, is memorable, and differentiates from accounting software
+**Consequences:** All branding, copy, and metadata use "Prevo"
 
 ---
 
 ## D002 — Education, Not Accounting Software
 **Date:** 2026-03-11
-**Decision:** Fiskio is a fiscal education platform, NOT accounting software or a digital accountant
+**Decision:** Prevo is a fiscal education platform, NOT accounting software or a digital accountant
 **Alternatives considered:** Building a cheaper accounting SaaS, building an AI accountant
 **Reason:** The market gap is education and independence, not another delegation tool. Competitors (SOLO, StartCo, Keez) already cover delegation.
 **Consequences:** We never build features that do the work FOR the user. We build features that teach and guide the user to do it themselves.
@@ -64,3 +64,12 @@ Settled decisions. Never re-debate these.
 **Alternatives considered:** Bilingual (RO/EN)
 **Reason:** Target users are Romanian entrepreneurs dealing with Romanian fiscal system. English adds complexity with no value for v1.
 **Consequences:** All copy, guides, fiscal library content in Romanian. i18n can be added later if needed.
+
+---
+
+## D008 — No Bookkeeping
+**Date:** 2026-03-11
+**Decision:** Prevo does not offer transaction ledgers, invoice management, or any accounting/bookkeeping features. ANAF data is consumed read-only to power the estimator, alerts, and calendar with real numbers.
+**Alternatives considered:** Building a simple transaction ledger (Registru) for income/expense tracking, CAEN-based deductibility guides tied to the ledger
+**Reason:** Product pivot to "smarter education powered by real data." Users already manage invoices in SmartBill/other accounting tools. Duplicating that work inside Prevo adds complexity without educational value and drifts toward becoming accounting software (violates D002).
+**Consequences:** Registru feature dropped entirely. E8 (CAEN Expense Deductibility Guide) dropped — it was built around the Registru. ANAF e-Factura data is read-only input for the estimator and calendar, never displayed as a ledger. All Registru-related code, routes, and migrations should be removed.

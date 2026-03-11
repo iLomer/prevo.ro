@@ -113,7 +113,7 @@
 **Acceptance Criteria**
 - [x] Component at `src/components/d212/D212Export.tsx` -- export action and submission guide
 - [x] Generates downloadable text summary of all D212 values (text format for MVP; PDF via jsPDF can be added later)
-- [x] Summary includes: all section values, user name/CUI placeholder, date, Fiskio branding
+- [x] Summary includes: all section values, user name/CUI placeholder, date, Prevo branding
 - [x] SPV submission instructions at `src/components/d212/SPVInstructions.tsx` -- 6 steps with URLs
 - [x] Each instruction step has screenshot placeholder area
 - [x] "Copiaza" button for each section that copies values to clipboard
@@ -206,7 +206,7 @@ Manual setup task. Checklist at `docs/deploy/custom-domain-setup.md`.
 - [x] `next.config.ts` updated with security headers: X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, Strict-Transport-Security
 - [x] `vercel.json` created with framework configuration
 - [x] Console.log statements removed or gated behind NODE_ENV check in production code -- verified, only console.info in dev mode exists
-- [x] Error pages (404, 500) render correctly in production with Fiskio branding
+- [x] Error pages (404, 500) render correctly in production with Prevo branding
 - [x] Source maps disabled in production build (productionBrowserSourceMaps: false)
 - [x] TypeScript build completes with zero errors -- code reviewed for type correctness
 

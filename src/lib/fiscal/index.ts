@@ -26,6 +26,7 @@ export {
 export {
   getAllPFADeadlines,
   filterDeadlines,
+  filterDeadlinesGeneric,
   getUpcomingDeadlines,
 } from "./pfa-deadlines";
 

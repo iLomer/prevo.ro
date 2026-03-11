@@ -1,4 +1,4 @@
-# Fiskio — Product Vision
+# Prevo — Product Vision
 
 ## The Why
 
@@ -6,13 +6,13 @@ România are peste 700.000 de PFA-uri active și sute de mii de SRL-uri mici. Ap
 
 Sistemul actual e construit pe dependență. Contabilii nu au interes să te educe. ANAF nu are interes să fie înțeles. Nimeni nu a construit vreodată produsul care schimbă asta.
 
-**Fiskio e primul.**
+**Prevo e primul.**
 
 ---
 
 ## The Vision Statement
 
-> Fiskio este platforma care transformă oricine are un PFA sau SRL într-un om competent fiscal — fără contabil, fără jargon, fără surprize de la ANAF.
+> Prevo este platforma care transformă oricine are un PFA sau SRL într-un om competent fiscal — fără contabil, fără jargon, fără surprize de la ANAF.
 
 Nu suntem software de contabilitate. Nu suntem un contabil digital. Suntem educația fiscală activă pe care sistemul nu a oferit-o niciodată — personalizată pe entitatea ta, actualizată cu legislația în vigoare, acționabilă din prima zi.
 
@@ -28,7 +28,7 @@ Antreprenorii români trăiesc cu trei frici permanente:
 
 **Frica de a rămâne fără bani** — "Nu știu cât pot scoate din firmă fără să mă trezesc că nu am cu ce plăti taxele."
 
-Soluția curentă e să plătești pe cineva să poarte fricile astea în locul tău. Fiskio elimină frica la sursă — prin cunoaștere, nu prin delegare.
+Soluția curentă e să plătești pe cineva să poarte fricile astea în locul tău. Prevo elimină frica la sursă — prin cunoaștere, nu prin delegare.
 
 ---
 
@@ -92,7 +92,7 @@ Vor să înțeleagă, nu să delege. Consideră că dependența de un contabil p
 
 ## The Core Differentiator
 
-| | SOLO / StartCo / Keez | Fiskio |
+| | SOLO / StartCo / Keez | Prevo |
 |---|---|---|
 | Model | Delegare — cineva face pentru tine | Educație — tu faci, știind cum |
 | Userul înțelege ceva? | Nu (intenționat) | Da (ăsta e tot produsul) |
@@ -132,7 +132,7 @@ Landing page cu waitlist înainte de a construi. Target: 200 emailuri în 30 de 
 
 ## ANAF API Integration
 
-Fiskio se integrează cu infrastructura oficială ANAF, nu o ocolește.
+Prevo se integrează cu infrastructura oficială ANAF, nu o ocolește.
 
 ### Ce folosim
 - `logincert.anaf.ro` — autentificare OAuth2 cu certificat digital calificat
@@ -141,11 +141,11 @@ Fiskio se integrează cu infrastructura oficială ANAF, nu o ocolește.
 
 ### Flow autentificare
 1. Userul se autentifică o singură dată cu certificatul digital calificat
-2. Fiskio obține token OAuth2 și îl stochează securizat
+2. Prevo obține token OAuth2 și îl stochează securizat
 3. De acolo, sincronizarea e automată
 
 ### Ce NU facem prin API (limitare ANAF actuală)
-Depunerea declarațiilor noi nu e disponibilă programatic. Fiskio pre-completează tot și ghidează userul până la ultimul click în SPV. Submitul îl face userul — el rămâne în control, noi eliminăm toate celelalte 95% din efort.
+Depunerea declarațiilor noi nu e disponibilă programatic. Prevo pre-completează tot și ghidează userul până la ultimul click în SPV. Submitul îl face userul — el rămâne în control, noi eliminăm toate celelalte 95% din efort.
 
 ---
 
@@ -198,4 +198,4 @@ Depunerea declarațiilor noi nu e disponibilă programatic. Fiskio pre-completea
 
 ## The One Thing
 
-> Fiskio nu vinde contabilitate mai ieftină. Vinde **ultima dată când ai nevoie de un contabil.**
+> Prevo nu vinde contabilitate mai ieftină. Vinde **ultima dată când ai nevoie de un contabil.**

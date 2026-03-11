@@ -255,7 +255,7 @@ export function D212Guide({ regime, caenCode }: D212GuideProps) {
             }
             whyExplanation={
               isNorma
-                ? "Norma de venit este o valoare fixa stabilita de Directia Generala a Finantelor Publice din judetul tau. Ea difera de la judet la judet si de la CAEN la CAEN. Valorile din Fiskio sunt orientative (medie nationala). Verifica valoarea exacta pe site-ul DGFP al judetului tau."
+                ? "Norma de venit este o valoare fixa stabilita de Directia Generala a Finantelor Publice din judetul tau. Ea difera de la judet la judet si de la CAEN la CAEN. Valorile din Prevo sunt orientative (medie nationala). Verifica valoarea exacta pe site-ul DGFP al judetului tau."
                 : "Venitul net este cifra reala pe care ANAF o foloseste pentru a calcula impozitul. Cu cat ai cheltuieli deductibile mai mari, cu atat venitul net e mai mic si platesti mai putin impozit."
             }
             value={taxableBase}
@@ -268,15 +268,23 @@ export function D212Guide({ regime, caenCode }: D212GuideProps) {
           <D212Step
             stepNumber={isNorma ? 5 : 6}
             fieldLabel="Sectiunea VI -- CAS (Contributia de Asigurari Sociale)"
-            explanation={`CAS este contributia pentru pensie. Rata este ${(FISCAL_CONSTANTS_2026.CAS_RATE * 100).toFixed(0)}% din ${
-              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.MINIMUM_GROSS_SALARY_ANNUAL)
-            } lei (12 salarii minime). Se datoreaza doar daca venitul/norma depaseste ${
-              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.MINIMUM_GROSS_SALARY_ANNUAL)
-            } lei.`}
-            whyExplanation={`CAS asigura dreptul la pensie. Baza de calcul nu este venitul real, ci plafonul de 12 salarii minime brute (${
-              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.MINIMUM_GROSS_SALARY_ANNUAL)
-            } lei in ${FISCAL_CONSTANTS_2026.FISCAL_YEAR}). Daca venitul tau net (sau norma) este sub acest plafon, nu datorezi CAS. Daca este peste, platesti fix ${
-              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.MINIMUM_GROSS_SALARY_ANNUAL * FISCAL_CONSTANTS_2026.CAS_RATE)
+            explanation={`CAS este contributia pentru pensie. Rata este ${(FISCAL_CONSTANTS_2026.CAS_RATE * 100).toFixed(0)}%. Are doua trepte: 12 salarii minime (${
+              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.CAS_THRESHOLD_12X)
+            } lei) si 24 salarii minime (${
+              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.CAS_THRESHOLD_24X)
+            } lei). Sub 12 salarii minime, CAS nu este obligatoriu.`}
+            whyExplanation={`CAS asigura dreptul la pensie. Sub ${
+              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.CAS_THRESHOLD_12X)
+            } lei venit net -- nu datorezi CAS (optional). Intre ${
+              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.CAS_THRESHOLD_12X)
+            } si ${
+              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.CAS_THRESHOLD_24X)
+            } lei -- platesti 25% din 12 salarii minime = ${
+              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.CAS_THRESHOLD_12X * FISCAL_CONSTANTS_2026.CAS_RATE)
+            } lei. Peste ${
+              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.CAS_THRESHOLD_24X)
+            } lei -- platesti 25% din 24 salarii minime = ${
+              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.CAS_THRESHOLD_24X * FISCAL_CONSTANTS_2026.CAS_RATE)
             } lei.`}
             value={casValue}
             isAutoCalculated
@@ -288,27 +296,23 @@ export function D212Guide({ regime, caenCode }: D212GuideProps) {
           <D212Step
             stepNumber={isNorma ? 6 : 7}
             fieldLabel="Sectiunea VII -- CASS (Contributia de Asigurari Sociale de Sanatate)"
-            explanation={`CASS este contributia pentru sanatate. Rata este ${(FISCAL_CONSTANTS_2026.CASS_RATE * 100).toFixed(0)}%. Are doua praguri: 6 salarii minime (${
+            explanation={`CASS este contributia pentru sanatate. Rata este ${(FISCAL_CONSTANTS_2026.CASS_RATE * 100).toFixed(0)}%. Se calculeaza proportional: minim 10% din 6 salarii minime (${
               new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.CASS_THRESHOLD_6X)
-            } lei) si 12 salarii minime (${
-              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.CASS_THRESHOLD_12X)
+            } lei), maxim 10% din 72 salarii minime (${
+              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.CASS_CAP_72X)
             } lei).`}
-            whyExplanation={`CASS asigura dreptul la servicii medicale gratuite. Functioneaza pe praguri: sub ${
+            whyExplanation={`CASS asigura dreptul la servicii medicale gratuite. Sub ${
               new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.CASS_THRESHOLD_6X)
-            } lei venit net -- nu datorezi CASS. Intre ${
+            } lei venit net -- platesti un minim de ${
+              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.CASS_THRESHOLD_6X * FISCAL_CONSTANTS_2026.CASS_RATE)
+            } lei (10% din 6 salarii minime), cu exceptia cazului in care esti si angajat. Intre ${
               new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.CASS_THRESHOLD_6X)
             } si ${
-              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.CASS_THRESHOLD_12X)
-            } lei -- platesti 10% din ${
-              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.CASS_THRESHOLD_6X)
-            } lei = ${
-              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.CASS_THRESHOLD_6X * FISCAL_CONSTANTS_2026.CASS_RATE)
-            } lei. Peste ${
-              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.CASS_THRESHOLD_12X)
-            } lei -- platesti 10% din ${
-              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.CASS_THRESHOLD_12X)
-            } lei = ${
-              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.CASS_THRESHOLD_12X * FISCAL_CONSTANTS_2026.CASS_RATE)
+              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.CASS_CAP_72X)
+            } lei -- platesti 10% din venitul net efectiv. Peste ${
+              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.CASS_CAP_72X)
+            } lei -- plafonul maxim: ${
+              new Intl.NumberFormat("ro-RO").format(FISCAL_CONSTANTS_2026.CASS_CAP_72X * FISCAL_CONSTANTS_2026.CASS_RATE)
             } lei.`}
             value={cassValue}
             isAutoCalculated

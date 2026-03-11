@@ -2,11 +2,6 @@
 
 import { useState, useMemo } from "react";
 import { calculateMicroTax, calculateDividendNet, calculateCASSDividend, SRL_CONSTANTS_2026 } from "@/lib/fiscal/srl";
-import type { SRLMicroRegime } from "@/lib/fiscal/srl";
-
-interface SRLOverviewProps {
-  regime: SRLMicroRegime;
-}
 
 function formatLei(value: number): string {
   return new Intl.NumberFormat("ro-RO", {
@@ -69,7 +64,7 @@ function FlowRow({ label, amount, type, highlight }: {
   );
 }
 
-export function SRLOverview({ regime }: SRLOverviewProps) {
+export function SRLOverview() {
   const [annualRevenue, setAnnualRevenue] = useState<string>("");
   const [annualExpenses, setAnnualExpenses] = useState<string>("");
   const [dividendPercent, setDividendPercent] = useState<number>(100);
@@ -81,7 +76,7 @@ export function SRLOverview({ regime }: SRLOverviewProps) {
     if (revenue <= 0) return null;
 
     // 1. Micro tax on revenue
-    const microTax = calculateMicroTax(revenue, regime);
+    const microTax = calculateMicroTax(revenue);
 
     // 2. Accounting profit (revenue - expenses - micro tax)
     const accountingProfit = Math.max(0, revenue - expenses - microTax.annualTax);
@@ -120,7 +115,7 @@ export function SRLOverview({ regime }: SRLOverviewProps) {
       effectiveTotalRate,
       monthlyNet,
     };
-  }, [revenue, expenses, regime, dividendPercent]);
+  }, [revenue, expenses, dividendPercent]);
 
   return (
     <div className="space-y-6">
@@ -191,7 +186,7 @@ export function SRLOverview({ regime }: SRLOverviewProps) {
             <StatCard
               label="Venituri anuale"
               value={`${formatLei(revenue)} lei`}
-              sublabel={`Regim micro ${regime === "micro_1" ? "1%" : "3%"}`}
+              sublabel="Regim micro 1%"
               color="primary"
             />
             <StatCard
@@ -223,7 +218,7 @@ export function SRLOverview({ regime }: SRLOverviewProps) {
 
             <FlowRow label="Venituri anuale (CA)" amount={revenue} type="income" />
             <FlowRow
-              label={`Impozit micro (${regime === "micro_1" ? "1%" : "3%"} din CA)`}
+              label="Impozit micro (1% din CA)"
               amount={calculations.microTax.annualTax}
               type="tax"
             />
@@ -251,7 +246,7 @@ export function SRLOverview({ regime }: SRLOverviewProps) {
 
             {calculations.cassResult.cassApplies ? (
               <FlowRow
-                label={`CASS dividende (10% — depasit pragul de ${formatLei(calculations.cassResult.threshold)} lei)`}
+                label={`CASS dividende (10% — depasit pragul de ${formatLei(calculations.cassResult.threshold6x)} lei)`}
                 amount={calculations.cassResult.cassAmount}
                 type="tax"
               />
@@ -259,7 +254,7 @@ export function SRLOverview({ regime }: SRLOverviewProps) {
               <div className="flex items-center justify-between border-t border-secondary-100 py-3">
                 <span className="text-sm text-secondary-600">CASS dividende</span>
                 <span className="text-sm text-success-600">
-                  Nu se aplica (sub {formatLei(calculations.cassResult.threshold)} lei)
+                  Nu se aplica (sub {formatLei(calculations.cassResult.threshold6x)} lei)
                 </span>
               </div>
             )}
@@ -295,7 +290,7 @@ export function SRLOverview({ regime }: SRLOverviewProps) {
               <div className="mt-3">
                 <div className="flex justify-between text-xs text-secondary-500">
                   <span>0 lei</span>
-                  <span>Prag: {formatLei(calculations.cassResult.threshold)} lei</span>
+                  <span>Prag: {formatLei(calculations.cassResult.threshold6x)} lei</span>
                 </div>
                 <div className="mt-1 h-2.5 w-full overflow-hidden rounded-full bg-secondary-200">
                   <div
@@ -341,7 +336,7 @@ export function SRLOverview({ regime }: SRLOverviewProps) {
             <ul className="mt-2 space-y-1.5 text-sm text-secondary-600">
               <li className="flex items-start gap-2">
                 <span className="mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary-400" />
-                <span><strong>Impozitul micro</strong> ({regime === "micro_1" ? "1%" : "3%"}) se calculeaza pe cifra de afaceri, nu pe profit. Se plateste trimestrial prin D100.</span>
+                <span><strong>Impozitul micro</strong> (1%) se calculeaza pe cifra de afaceri, nu pe profit. Se plateste trimestrial prin D100.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary-400" />
@@ -353,7 +348,7 @@ export function SRLOverview({ regime }: SRLOverviewProps) {
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary-400" />
-                <span><strong>Baza CASS</strong> este plafonata la 60 salarii minime brute ({formatLei(SRL_CONSTANTS_2026.CASS_DIVIDEND_CAP_60X)} lei). Peste acest plafon, CASS nu mai creste.</span>
+                <span><strong>Baza CASS</strong> este in trepte (6x/12x/24x salarii minime). Plafonul maxim este de 24 salarii minime ({formatLei(SRL_CONSTANTS_2026.CASS_DIVIDEND_CAP_24X)} lei). CASS maxim: {formatLei(SRL_CONSTANTS_2026.CASS_DIVIDEND_CAP_24X * 0.10)} lei.</span>
               </li>
             </ul>
           </div>

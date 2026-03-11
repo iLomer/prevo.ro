@@ -1,6 +1,6 @@
 # Vercel Project and Environment Variables Setup
 
-Checklist for deploying Fiskio (pricepo.ro) on Vercel.
+Checklist for deploying Prevo (pricepo.ro) on Vercel.
 
 ## 1. Create Vercel Project
 

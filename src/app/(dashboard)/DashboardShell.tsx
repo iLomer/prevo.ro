@@ -4,6 +4,7 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { SignOutButton } from "@/components/auth/SignOutButton";
+import { Logo } from "@/components/ui/Logo";
 import type { FiscalRegime, EntityType } from "@/types";
 
 interface NavItem {
@@ -59,9 +60,9 @@ const icons = {
       <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
     </svg>
   ),
-  ledger: (
+  book: (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /><line x1="8" y1="7" x2="16" y2="7" /><line x1="8" y1="11" x2="13" y2="11" />
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
     </svg>
   ),
 };
@@ -72,18 +73,20 @@ const PFA_NAV_ITEMS: NavItem[] = [
   { label: "Calendar fiscal", href: "/calendar", icon: icons.calendar },
   { label: "Estimator taxe", href: "/estimator", icon: icons.calculator },
   { label: "Ghid D212", href: "/d212", icon: icons.document },
-  { label: "Registru", href: "/registru", icon: icons.ledger },
+  { label: "Biblioteca", href: "/biblioteca", icon: icons.book },
   { label: "Alerte", href: "/alerte", icon: icons.bell },
 ];
 
 /** SRL users: one clean list, no duplication */
 const SRL_NAV_ITEMS: NavItem[] = [
+  { label: "Panou", href: "/panou", icon: icons.dashboard },
+  { label: "Calendar fiscal", href: "/calendar", icon: icons.calendar },
   { label: "Situatie financiara", href: "/srl/situatie-financiara", icon: icons.wallet },
   { label: "Simulator dividende", href: "/srl/simulator-dividende", icon: icons.money },
   { label: "CASS dividende", href: "/srl/cass-dividende", icon: icons.shield },
   { label: "Cash flow", href: "/srl/cash-flow", icon: icons.chart },
   { label: "Decizie asociat", href: "/srl/decizie-asociat", icon: icons.document },
-  { label: "Registru", href: "/registru", icon: icons.ledger },
+  { label: "Biblioteca", href: "/biblioteca", icon: icons.book },
   { label: "Alerte", href: "/alerte", icon: icons.bell },
 ];
 
@@ -91,7 +94,6 @@ const REGIME_LABELS: Record<FiscalRegime, string> = {
   norma_venit: "Norma de venit",
   sistem_real: "Sistem real",
   micro_1: "Micro 1%",
-  micro_3: "Micro 3%",
 };
 
 const ENTITY_LABELS: Record<EntityType, string> = {
@@ -143,8 +145,8 @@ export function DashboardShell({ entityType, regime, children }: DashboardShellP
                 </svg>
               )}
             </button>
-            <Link href="/panou" className="text-lg font-bold text-primary-700">
-              Fiskio
+            <Link href="/panou" className="text-primary-700">
+              <Logo size="md" />
             </Link>
           </div>
           <div className="flex items-center gap-3">
@@ -196,7 +198,7 @@ export function DashboardShell({ entityType, regime, children }: DashboardShellP
             />
             <aside className="fixed inset-y-0 left-0 z-50 w-64 bg-background shadow-lg">
               <div className="flex items-center justify-between border-b border-secondary-200 px-4 py-3">
-                <span className="text-lg font-bold text-primary-700">Fiskio</span>
+                <Logo size="md" />
                 <button
                   onClick={() => setMobileMenuOpen(false)}
                   className="rounded-lg p-1.5 text-secondary-600 hover:bg-secondary-100"

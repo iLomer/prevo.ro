@@ -1,6 +1,11 @@
 /**
- * Fiscal calculation types for Fiskio.
+ * Fiscal calculation types for Prevo.
  * Used by all E3 features: calendar, estimator, D212 guide.
+ *
+ * 2026 rates and thresholds based on:
+ * - OUG 8/2026, OUG 89/2025
+ * - Minimum gross salary: 4,050 lei/month (Jan-Jun), 4,325 lei/month (Jul-Dec)
+ * - Thresholds calculated on Jan 1 minimum salary (4,050 lei)
  */
 
 import type { FiscalRegime, TVAStatus } from "@/types";
@@ -75,7 +80,24 @@ export interface NormaDeVenitEntry {
   normaValue: number;
 }
 
-/** 2026 fiscal constants */
+/**
+ * 2026 fiscal constants for PFA.
+ *
+ * Minimum gross salary: 4,050 lei/month (Jan-Jun 2026), 4,325 lei/month (Jul-Dec 2026).
+ * Thresholds use the Jan 1 value (4,050 lei) per ANAF rules.
+ *
+ * CAS (pensie) — 25%:
+ *   Below 12x: 0 (optional)
+ *   12x - 24x: 25% of 12x minimum salaries
+ *   Above 24x: 25% of 24x minimum salaries
+ *
+ * CASS (sanatate) — 10%:
+ *   Below 6x: 10% of 6x (minimum floor, unless also employed)
+ *   6x - 72x: 10% of actual income
+ *   Above 72x: 10% of 72x (cap)
+ *
+ * Income tax — 10% of taxable base (after CAS + CASS deductions)
+ */
 export const FISCAL_CONSTANTS_2026 = {
   /** CAS rate: 25% */
   CAS_RATE: 0.25,
@@ -83,14 +105,20 @@ export const FISCAL_CONSTANTS_2026 = {
   CASS_RATE: 0.10,
   /** Income tax rate: 10% */
   INCOME_TAX_RATE: 0.10,
-  /** Minimum gross salary per month (lei) */
-  MINIMUM_GROSS_SALARY_MONTHLY: 3700,
-  /** Annual minimum gross salary (lei) */
-  MINIMUM_GROSS_SALARY_ANNUAL: 3700 * 12,
-  /** 6x minimum salary threshold for CASS */
-  CASS_THRESHOLD_6X: 3700 * 6,
-  /** 12x minimum salary threshold for CASS */
-  CASS_THRESHOLD_12X: 3700 * 12,
+  /** Minimum gross salary per month (lei) — Jan-Jun 2026 */
+  MINIMUM_GROSS_SALARY_MONTHLY: 4050,
+  /** Annual minimum gross salary (lei) — 4,050 x 12 */
+  MINIMUM_GROSS_SALARY_ANNUAL: 4050 * 12,
+  /** 6x minimum salary threshold (CASS minimum floor) */
+  CASS_THRESHOLD_6X: 4050 * 6,
+  /** 12x minimum salary threshold (CAS trigger) */
+  CAS_THRESHOLD_12X: 4050 * 12,
+  /** 24x minimum salary threshold (CAS upper tier) */
+  CAS_THRESHOLD_24X: 4050 * 24,
+  /** 72x minimum salary (CASS cap) */
+  CASS_CAP_72X: 4050 * 72,
+  /** TVA registration threshold (lei) — from April 2025 */
+  TVA_THRESHOLD: 395000,
   /** Fiscal year */
   FISCAL_YEAR: 2026,
 } as const;
