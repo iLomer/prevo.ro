@@ -7,29 +7,29 @@ Aligned with MVP phases from product vision. Refine with @meto-pm.
 
 ## E1 -- Project Setup
 **Goal:** Initialize the Next.js app with Tailwind CSS, configure Supabase client, establish the development environment, and set up the project structure for a Romanian fiscal education platform.
-**Status:** In progress -- sliced into 5 tasks (slice-001 through slice-005), in tasks-todo.md
+**Status:** Complete -- all 5 tasks done (slice-001 through slice-005)
 **Tasks:** slice-001, slice-002, slice-003, slice-004, slice-005
 
 ---
 
 ## E2 -- Auth & Fiscal Profile
 **Goal:** Implement sign up, sign in, sign out using Supabase Auth with RLS. Build the fiscal profile onboarding flow (5 min: entity type PFA/SRL, regime, TVA status, CAEN code) that personalizes the entire experience.
-**Status:** Not started
-**Tasks:** To be sliced by @meto-pm
+**Status:** Sliced -- 4 tasks (slice-006 through slice-009) in tasks-todo.md
+**Tasks:** slice-006 (Auth config + middleware), slice-007 (Sign up/in/out UI), slice-008 (Fiscal profiles DB + RLS), slice-009 (Onboarding flow)
 
 ---
 
 ## E3 -- Core PFA Features (Phase 1)
 **Goal:** Build the primary PFA features: personalized fiscal calendar, live tax estimator, interactive D212 guide with auto calculations, export ready-to-submit files, and email deadline alerts. This is the heart of the MVP.
-**Status:** Not started
+**Status:** Not started -- depends on E2
 **Tasks:** To be sliced by @meto-pm
 
 ---
 
 ## E4 -- Landing Page & Validation
 **Goal:** Build a waitlist landing page for pricepo.ro. Communicate the Fiskio value proposition, collect emails, target 200 signups in 30 days organic. Deploy to Vercel with custom domain.
-**Status:** Not started
-**Tasks:** To be sliced by @meto-pm
+**Status:** Sliced -- 4 tasks (slice-010 through slice-013) in tasks-todo.md
+**Tasks:** slice-010 (Hero + value prop), slice-011 (Waitlist email collection), slice-012 (SEO + OG tags), slice-013 (Analytics)
 
 ---
 

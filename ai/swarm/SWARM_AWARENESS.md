@@ -10,7 +10,7 @@
 - **Mode:** swarm
 - **Started:** 2026-03-11
 - **Total epics:** 7
-- **Total tasks:** 5
+- **Total tasks:** 13
 - **Acceptance criteria:** 5 / 5 passed
 
 ---
@@ -20,10 +20,10 @@
 | Epic ID | Name | Agent | Status | Tasks Done | Blocker |
 |---|---|---|---|---|---|
 | E1 | Project Setup | @meto-epic-e1 | complete | 5/5 | none |
-| E2 | Auth & Fiscal Profile | @meto-epic-e2 | not-started | 0 | E1 |
-| E3 | Core PFA Features | @meto-epic-e3 | not-started | 0 | E1, E2 |
-| E4 | Landing Page & Validation | @meto-epic-e4 | not-started | 0 | E1 |
-| E5 | Deploy & Production | @meto-epic-e5 | not-started | 0 | E1 |
+| E2 | Auth & Fiscal Profile | @meto-epic-e2 | complete | 4/4 | none |
+| E3 | Core PFA Features | @meto-epic-e3 | not-started | 0 | E2 |
+| E4 | Landing Page & Validation | @meto-epic-e4 | complete | 4/4 | none |
+| E5 | Deploy & Production | @meto-epic-e5 | not-started | 0 | E4 |
 | E6 | ANAF Integration | @meto-epic-e6 | not-started | 0 | E2, E3 |
 | E7 | SRL Features | @meto-epic-e7 | not-started | 0 | E2, E3 |
 
@@ -38,9 +38,9 @@ See full ownership rules in `ai/swarm/domain-map.md`.
 | Epic ID | Owns |
 |---|---|
 | E1 | `/src/lib/`, `/src/config/`, root config files |
-| E2 | `/src/app/(auth)/`, `/src/app/onboarding/`, `/src/components/auth/`, `/src/components/onboarding/` |
+| E2 | `/src/app/(auth)/`, `/src/app/onboarding/`, `/src/components/auth/`, `/src/components/onboarding/`, `src/middleware.ts` |
 | E3 | `/src/app/(dashboard)/`, `/src/components/calendar/`, `/src/components/estimator/`, `/src/components/d212/` |
-| E4 | `/src/app/(marketing)/`, `/src/components/landing/`, `/src/components/waitlist/` |
+| E4 | `/src/app/(marketing)/`, `/src/components/landing/`, `/src/components/waitlist/`, `/src/app/api/waitlist/` |
 | E5 | `/vercel.json`, `/.github/`, deployment configs |
 | E6 | `/src/lib/anaf/`, `/src/app/api/anaf/`, `/src/components/anaf/` |
 | E7 | `/src/app/(dashboard)/srl/`, `/src/components/srl/`, `/src/lib/fiscal/srl/` |
@@ -55,6 +55,12 @@ Append only. Never delete entries. One line per checkpoint.
 2026-03-11 | E1 | done:0 | status:on-track | blocker:none | note:E1 sliced into 5 tasks, placed in tasks-todo.md
 2026-03-11 | E1 | done:3 | status:on-track | blocker:none | note:slice-001 (Next.js init), slice-002 (Tailwind v4 tokens), slice-003 (Supabase client) completed. Remaining: slice-005 (ESLint), slice-004 (folder structure)
 2026-03-11 | E1 | done:5 | status:complete | blocker:none | note:All E1 tasks complete. slice-004 (folder structure) and slice-005 (ESLint) finished. E2/E3/E4/E5 epics unblocked.
+2026-03-11 | E2 | done:0 | status:not-started | blocker:none | note:E2 sliced into 4 tasks (slice-006 to slice-009). Auth config first, then UI + DB schema in parallel, onboarding last.
+2026-03-11 | E4 | done:0 | status:not-started | blocker:none | note:E4 sliced into 4 tasks (slice-010 to slice-013). Hero page first, then waitlist + SEO + analytics can parallelize.
+2026-03-11 | E2 | done:3 | status:on-track | blocker:none | note:slice-006 (middleware), slice-007 (auth UI), slice-008 (fiscal profiles schema) completed. Remaining: slice-009 (onboarding flow). Note: created dashboard layout for sign-out button (E3 domain, but E3 not started).
+2026-03-11 | E4 | done:3 | status:on-track | blocker:none | note:slice-010 (landing page hero), slice-011 (waitlist form), slice-012 (SEO/OG tags) completed. Remaining: slice-013 (analytics). All within E4 domain, no conflicts.
+2026-03-11 | E2 | done:4 | status:complete | blocker:none | note:All E2 tasks complete. slice-009 (onboarding flow) finished. Auth middleware, sign-up/in/out UI, fiscal profiles DB schema, onboarding wizard all implemented. E3/E6/E7 unblocked from E2 dependency.
+2026-03-11 | E4 | done:4 | status:complete | blocker:none | note:All E4 tasks complete. slice-010 (hero), slice-011 (waitlist), slice-012 (SEO), slice-013 (analytics) finished. Landing page ready. E5 (deploy) unblocked.
 ```
 
 ---
@@ -72,4 +78,5 @@ Free text. Epic agents append observations, decisions, or notes here.
 
 ```
 2026-03-11 | PM | E1 sliced into 5 tasks: slice-001 (Next.js init), slice-002 (Tailwind), slice-003 (Supabase client), slice-004 (folder structure), slice-005 (ESLint). Tasks ordered by dependency -- slice-001 first (no deps), then slice-002/003/005 can run in parallel, slice-004 depends on 001+002.
+2026-03-11 | PM | E2 + E4 sliced in parallel. E2: 4 tasks (slice-006 to slice-009), E4: 4 tasks (slice-010 to slice-013). E2 and E4 are fully independent -- zero shared files. @meto-epic-e2 and @meto-epic-e4 can run simultaneously. E2 internal: slice-006 first, then slice-007 + slice-008 in parallel, slice-009 last. E4 internal: slice-010 first, then slice-011 + slice-012 + slice-013 in parallel.
 ```
