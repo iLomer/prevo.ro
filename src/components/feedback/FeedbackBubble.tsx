@@ -27,14 +27,15 @@ export function FeedbackBubble() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, [open]);
 
-  // Reset form when reopening - use ref to track previous open state
-  const prevOpenRef = useRef(false);
-  if (open && !prevOpenRef.current && status === "success") {
-    setStatus("idle");
-    setMessage("");
-    setEmail("");
+  function toggleOpen() {
+    const willOpen = !open;
+    if (willOpen && status === "success") {
+      setStatus("idle");
+      setMessage("");
+      setEmail("");
+    }
+    setOpen(willOpen);
   }
-  prevOpenRef.current = open;
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -141,7 +142,7 @@ export function FeedbackBubble() {
 
       {/* Bubble button */}
       <button
-        onClick={() => setOpen(!open)}
+        onClick={toggleOpen}
         aria-label="Trimite feedback"
         className="flex h-12 w-12 items-center justify-center rounded-full bg-secondary-900 text-white shadow-lg transition-all hover:bg-secondary-800 hover:shadow-xl active:scale-95"
       >
