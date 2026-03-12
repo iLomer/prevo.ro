@@ -35,11 +35,11 @@ export function Hero() {
             className="animate-fade-up text-[clamp(2.5rem,6vw,4.5rem)] font-semibold leading-[1.08] tracking-tight text-secondary-900"
             style={{ animationDelay: "100ms" }}
           >
-            Ultima data cand
+            Tot ce trebuie sa stii
             <br />
-            ai nevoie de un{" "}
+            despre{" "}
             <span className="bg-gradient-to-r from-accent-500 to-primary-500 bg-clip-text text-transparent">
-              contabil
+              taxele tale
             </span>
           </h1>
 
@@ -47,9 +47,9 @@ export function Hero() {
             className="mt-7 max-w-xl animate-fade-up text-[17px] leading-relaxed text-secondary-500"
             style={{ animationDelay: "200ms" }}
           >
-            Nu mai plati lunar pentru ceva ce poti invata in cateva ore.
-            Prevo iti arata exact ce declaratii ai, cand le depui si cat
-            datorezi - fara frica de greseli, fara surprize de la ANAF.
+            Termene, taxe, declaratii si legislatie actualizata la zi.
+            Totul intr-un singur loc, personalizat pe PFA-ul sau SRL-ul
+            tau.
           </p>
 
           <div
@@ -78,8 +78,8 @@ export function Hero() {
             style={{ animationDelay: "400ms" }}
           >
             {[
+              "Legislatie verificata, cu surse oficiale",
               "Gratuit pentru calendar fiscal",
-              "Fara abonament obligatoriu",
               "Pentru PFA si SRL",
             ].map((text) => (
               <span key={text} className="flex items-center gap-2.5 text-[13px] text-secondary-400">

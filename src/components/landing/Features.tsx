@@ -28,16 +28,16 @@ const features = [
     span: "md:col-span-2",
   },
   {
-    title: "Alerte legislative",
+    title: "Monitor legislativ",
     description:
-      "Cand apare un OUG care te afecteaza, primesti explicatie concreta: ce s-a schimbat si ce trebuie sa faci.",
+      "Fiecare modificare fiscala explicata in limba romana, cu impact concret pe situatia ta. Cu baza legala si referinta Monitorul Oficial — nu trebuie sa cauti pe 5 site-uri sau sa platesti legis.ro.",
     icon: BellIcon,
     span: "md:col-span-2",
   },
   {
-    title: "Wiki fiscal",
+    title: "Wiki fiscal cu surse",
     description:
-      "Termeni fiscali explicati pe intelesul tuturor. Nu legaleza, ci informatii clare pe care le poti folosi imediat.",
+      "Termeni fiscali explicati pe intelesul tuturor, fiecare cu baza legala verificabila. Nu \"cred ca asa e\" — ci legea exacta pe care se bazeaza.",
     icon: BookIcon,
     span: "",
   },
