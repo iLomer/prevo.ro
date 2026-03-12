@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { TaxEstimator } from "@/components/estimator";
+import { isProUser } from "@/lib/stripe/subscription";
+import { ProGate } from "@/components/ProGate";
 import type { FiscalRegime } from "@/types";
 
 export default async function EstimatorPage() {
@@ -12,6 +14,10 @@ export default async function EstimatorPage() {
 
   if (!user) {
     redirect("/autentificare");
+  }
+
+  if (!(await isProUser())) {
+    return <ProGate feature="Estimator taxe" />;
   }
 
   const { data: profile } = await supabase

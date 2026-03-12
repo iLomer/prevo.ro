@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { D212Guide } from "@/components/d212";
+import { isProUser } from "@/lib/stripe/subscription";
+import { ProGate } from "@/components/ProGate";
 import type { FiscalRegime } from "@/types";
 
 export default async function D212Page() {
@@ -12,6 +14,10 @@ export default async function D212Page() {
 
   if (!user) {
     redirect("/autentificare");
+  }
+
+  if (!(await isProUser())) {
+    return <ProGate feature="Ghid D212" />;
   }
 
   const { data: profile } = await supabase

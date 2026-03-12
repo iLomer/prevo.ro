@@ -1,6 +1,11 @@
 import { CASSDividendEstimator } from "@/components/srl/CASSDividendEstimator";
+import { isProUser } from "@/lib/stripe/subscription";
+import { ProGate } from "@/components/ProGate";
 
-export default function CASSDividendePage() {
+export default async function CASSDividendePage() {
+  if (!(await isProUser())) {
+    return <ProGate feature="CASS dividende" />;
+  }
   return (
     <div className="pb-20 lg:pb-0">
       <div className="mb-6">

@@ -7,6 +7,8 @@ import { getNormaDeVenitEntry } from "@/lib/fiscal/norma-venit";
 import { getAllSRLDeadlines } from "@/lib/fiscal/srl/srl-deadlines";
 import { SistemRealEstimatorCard } from "@/components/estimator/SistemRealEstimatorCard";
 import { DeadlineChecklist } from "@/components/calendar/DeadlineChecklist";
+import { ProUpgradeBanner } from "@/components/ProUpgradeBanner";
+import { isProUser } from "@/lib/stripe/subscription";
 import {
   getUpdatesByEntity,
   CATEGORY_LABELS as LEG_CATEGORY_LABELS,
@@ -74,6 +76,7 @@ export default async function DashboardPage() {
   const entityType = profile.entity_type as EntityType;
 
   // Compute tax estimate (PFA only - SRL needs revenue input)
+  const isPro = await isProUser();
   const isPFA = entityType === "pfa";
   const normaEntry = isPFA && regime === "norma_venit" ? getNormaDeVenitEntry(caenCode) : null;
   const incomeBase = normaEntry ? normaEntry.normaValue : 0;
@@ -91,6 +94,13 @@ export default async function DashboardPage() {
 
   return (
     <div className="pb-20 lg:pb-0">
+      {/* Pro upgrade banner */}
+      {!isPro && (
+        <div className="mb-6">
+          <ProUpgradeBanner />
+        </div>
+      )}
+
       {/* Profile summary */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-foreground">

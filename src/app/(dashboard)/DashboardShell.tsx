@@ -111,10 +111,11 @@ const ENTITY_LABELS: Record<EntityType, string> = {
 interface DashboardShellProps {
   entityType: EntityType;
   regime: FiscalRegime;
+  isPro: boolean;
   children: React.ReactNode;
 }
 
-export function DashboardShell({ entityType, regime, children }: DashboardShellProps) {
+export function DashboardShell({ entityType, regime, isPro, children }: DashboardShellProps) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -160,6 +161,11 @@ export function DashboardShell({ entityType, regime, children }: DashboardShellP
             <span className="hidden text-sm text-secondary-500 sm:inline">
               {ENTITY_LABELS[entityType]} &middot; {REGIME_LABELS[regime]}
             </span>
+            {isPro && (
+              <span className="rounded-full bg-primary-100 px-2 py-0.5 text-xs font-semibold text-primary-700">
+                Pro
+              </span>
+            )}
             <SignOutButton />
           </div>
         </div>
@@ -169,15 +175,6 @@ export function DashboardShell({ entityType, regime, children }: DashboardShellP
         {/* Desktop sidebar */}
         <aside className="hidden w-60 shrink-0 border-r border-secondary-200 bg-background lg:block">
           <nav className="sticky top-[57px] flex flex-col gap-1 px-3 py-4">
-            {/* Profile badge */}
-            <div className="mb-4 rounded-lg bg-primary-50 px-3 py-2.5">
-              <p className="text-xs font-medium text-primary-600">
-                {ENTITY_LABELS[entityType]}
-              </p>
-              <p className="text-sm font-semibold text-primary-800">
-                {REGIME_LABELS[regime]}
-              </p>
-            </div>
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -216,15 +213,6 @@ export function DashboardShell({ entityType, regime, children }: DashboardShellP
                     <line x1="6" y1="6" x2="18" y2="18" />
                   </svg>
                 </button>
-              </div>
-              {/* Profile badge in mobile sidebar */}
-              <div className="mx-3 mt-4 rounded-lg bg-primary-50 px-3 py-2.5">
-                <p className="text-xs font-medium text-primary-600">
-                  {ENTITY_LABELS[entityType]}
-                </p>
-                <p className="text-sm font-semibold text-primary-800">
-                  {REGIME_LABELS[regime]}
-                </p>
               </div>
               <nav className="flex flex-col gap-1 px-3 py-4">
                 {navItems.map((item) => (

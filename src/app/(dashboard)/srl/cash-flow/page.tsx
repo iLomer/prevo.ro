@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { FiscalCashFlow } from "@/components/srl/FiscalCashFlow";
+import { isProUser } from "@/lib/stripe/subscription";
+import { ProGate } from "@/components/ProGate";
 
 export const dynamic = "force-dynamic";
 
@@ -13,6 +15,10 @@ export default async function CashFlowPage() {
 
   if (!user) {
     redirect("/autentificare");
+  }
+
+  if (!(await isProUser())) {
+    return <ProGate feature="Cash flow fiscal" />;
   }
 
   return (

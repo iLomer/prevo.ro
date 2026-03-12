@@ -128,7 +128,7 @@ export function Pricing() {
             </ul>
 
             <a
-              href="#lista-asteptare"
+              href="/inregistrare?plan=pro"
               className="mt-8 block rounded-lg bg-secondary-900 py-3 text-center text-sm font-medium text-white transition-colors hover:bg-secondary-800"
             >
               Incepe cu Pro

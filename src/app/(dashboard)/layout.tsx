@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { isProUser } from "@/lib/stripe/subscription";
 import { DashboardShell } from "./DashboardShell";
 import type { FiscalRegime, EntityType } from "@/types";
 
@@ -31,10 +32,13 @@ export default async function DashboardLayout({
     redirect("/onboarding");
   }
 
+  const isPro = await isProUser();
+
   return (
     <DashboardShell
       entityType={profile.entity_type as EntityType}
       regime={profile.regime as FiscalRegime}
+      isPro={isPro}
     >
       {children}
     </DashboardShell>

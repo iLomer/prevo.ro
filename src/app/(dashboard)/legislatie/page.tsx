@@ -5,9 +5,14 @@ import {
   CATEGORY_COLORS,
   ENTITY_LABELS,
 } from "@/lib/legislative";
+import { isProUser } from "@/lib/stripe/subscription";
+import { ProGate } from "@/components/ProGate";
 import { LegislativeFilterTabs } from "./LegislativeFilterTabs";
 
-export default function LegislatiePage() {
+export default async function LegislatiePage() {
+  if (!(await isProUser())) {
+    return <ProGate feature="Monitor legislativ" />;
+  }
   const updates = getAllUpdates();
 
   return (
