@@ -1,3 +1,3 @@
 # Tasks Todo
 
-*(No tasks remaining)*
+(empty — all slices implemented)

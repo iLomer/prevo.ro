@@ -41,7 +41,7 @@ export async function POST(request: Request) {
   try {
     await brevo.transactionalEmails.sendTransacEmail({
       sender: { email: "contact@prevo.ro", name: "Prevo Feedback" },
-      to: [{ email: "lomer.ionut@gmail.com" }],
+      to: [{ email: process.env.FEEDBACK_EMAIL! }],
       replyTo: replyTo ? { email: replyTo } : undefined,
       subject: `Feedback Prevo: ${page || "/"}`,
       htmlContent: `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:560px">
