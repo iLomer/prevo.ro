@@ -2,9 +2,10 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import type { FiscalRegime } from "@/types";
-import { calculateTotalTax, getNormaDeVenitEntry } from "@/lib/fiscal";
-import type { TaxBreakdown } from "@/lib/fiscal";
+import { calculateTotalTax, getNormaDeVenitEntry, calculateComparisonBreakdown } from "@/lib/fiscal";
+import type { TaxBreakdown, ComparisonBreakdown } from "@/lib/fiscal";
 import { TaxBreakdownDisplay } from "./TaxBreakdownDisplay";
+import { RegimeComparison } from "./RegimeComparison";
 
 interface TaxEstimatorProps {
   regime: FiscalRegime;
@@ -15,7 +16,11 @@ export function TaxEstimator({ regime, caenCode }: TaxEstimatorProps) {
   const [income, setIncome] = useState<string>("");
   const [expenses, setExpenses] = useState<string>("");
   const [breakdown, setBreakdown] = useState<TaxBreakdown | null>(null);
+  const [showComparison, setShowComparison] = useState(false);
+  const [comparison, setComparison] = useState<ComparisonBreakdown | null>(null);
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const compareRegime: FiscalRegime = regime === "norma_venit" ? "sistem_real" : "norma_venit";
 
   const normaEntry = regime === "norma_venit" ? getNormaDeVenitEntry(caenCode) : null;
 
@@ -31,8 +36,15 @@ export function TaxEstimator({ regime, caenCode }: TaxEstimatorProps) {
 
       const result = calculateTotalTax(incomeNum, regime, expensesNum, caenCode);
       setBreakdown(result);
+
+      if (showComparison) {
+        const comp = calculateComparisonBreakdown(
+          incomeNum, expensesNum, caenCode, regime, compareRegime
+        );
+        setComparison(comp);
+      }
     },
-    [regime, caenCode]
+    [regime, caenCode, showComparison, compareRegime]
   );
 
   useEffect(() => {
@@ -122,7 +134,46 @@ export function TaxEstimator({ regime, caenCode }: TaxEstimatorProps) {
       </div>
 
       {/* Results */}
-      {breakdown && <TaxBreakdownDisplay breakdown={breakdown} />}
+      {breakdown && !showComparison && <TaxBreakdownDisplay breakdown={breakdown} />}
+
+      {/* Comparison results */}
+      {breakdown && showComparison && comparison && (
+        <RegimeComparison comparison={comparison} />
+      )}
+
+      {/* Comparison toggle */}
+      {breakdown && regime !== "micro_1" && (
+        <button
+          onClick={() => {
+            const next = !showComparison;
+            setShowComparison(next);
+            if (next) {
+              const incomeNum = parseFloat(income) || 0;
+              const expensesNum = regime === "sistem_real" ? (parseFloat(expenses) || 0) : 0;
+              if (incomeNum > 0) {
+                const comp = calculateComparisonBreakdown(
+                  incomeNum, expensesNum, caenCode, regime, compareRegime
+                );
+                setComparison(comp);
+              }
+            } else {
+              setComparison(null);
+            }
+          }}
+          className={`flex w-full items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-medium transition-colors ${
+            showComparison
+              ? "border-primary-300 bg-primary-50 text-primary-700"
+              : "border-secondary-200 bg-background text-secondary-600 hover:border-secondary-300 hover:text-secondary-900"
+          }`}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+            <line x1="18" y1="20" x2="18" y2="10" />
+            <line x1="12" y1="20" x2="12" y2="4" />
+            <line x1="6" y1="20" x2="6" y2="14" />
+          </svg>
+          {showComparison ? "Ascunde comparatia" : `Compara cu ${regime === "norma_venit" ? "sistem real" : "norma de venit"}`}
+        </button>
+      )}
 
       {/* Empty state */}
       {!breakdown && (

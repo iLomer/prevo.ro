@@ -8,6 +8,8 @@ import { getAllSRLDeadlines } from "@/lib/fiscal/srl/srl-deadlines";
 import { SistemRealEstimatorCard } from "@/components/estimator/SistemRealEstimatorCard";
 import { DeadlineChecklist } from "@/components/calendar/DeadlineChecklist";
 import { ProUpgradeBanner } from "@/components/ProUpgradeBanner";
+import { ChecklistBanner } from "@/components/checklists/ChecklistBanner";
+import { getChecklistsForEntity } from "@/lib/checklists";
 import { isProUser } from "@/lib/stripe/subscription";
 import {
   getUpdatesByEntity,
@@ -112,6 +114,9 @@ export default async function DashboardPage() {
           {profile.tva_status ? " · Platitor TVA" : ""}
         </p>
       </div>
+
+      {/* Guided checklist */}
+      <DashboardChecklist entityType={entityType} />
 
       {/* Top row: Tax estimate + Next deadline */}
       <div className="grid gap-4 lg:grid-cols-2">
@@ -445,6 +450,19 @@ function RecentLegislation({ entityType }: { entityType: EntityType }) {
           </Link>
         ))}
       </div>
+    </div>
+  );
+}
+
+function DashboardChecklist({ entityType }: { entityType: EntityType }) {
+  const checklists = getChecklistsForEntity(entityType);
+  // Show the first matching checklist (most relevant)
+  const checklist = checklists[0];
+  if (!checklist) return null;
+
+  return (
+    <div className="mb-6">
+      <ChecklistBanner checklist={checklist} />
     </div>
   );
 }

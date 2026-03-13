@@ -1,6 +1,9 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { FiscalCalendar } from "@/components/calendar";
+import { CalendarViewToggle } from "@/components/calendar";
+import { filterDeadlines, filterDeadlinesGeneric, buildAnnualTimeline, calculateTotalTax } from "@/lib/fiscal";
+import { getAllSRLDeadlines } from "@/lib/fiscal/srl/srl-deadlines";
+import { getNormaDeVenitEntry } from "@/lib/fiscal/norma-venit";
 import type { FiscalRegime, TVAStatus, EntityType } from "@/types";
 
 export default async function CalendarPage() {
@@ -16,7 +19,7 @@ export default async function CalendarPage() {
 
   const { data: profile } = await supabase
     .from("fiscal_profiles")
-    .select("entity_type, regime, tva_status")
+    .select("entity_type, regime, tva_status, caen_code")
     .eq("id", user.id)
     .single();
 
@@ -28,6 +31,23 @@ export default async function CalendarPage() {
   const regime = profile.regime as FiscalRegime;
   const tvaStatus: TVAStatus = profile.tva_status ? "platitor" : "neplatitor";
 
+  // Build timeline data for the annual view
+  const yearStart = new Date(2026, 0, 1);
+  const yearEnd = new Date(2026, 11, 31);
+  const dateFilter = { regime, tvaStatus, fromDate: yearStart, toDate: yearEnd };
+
+  const allDeadlines = entityType === "srl"
+    ? filterDeadlinesGeneric(getAllSRLDeadlines(), dateFilter)
+    : filterDeadlines(dateFilter);
+
+  // Calculate tax breakdown for PFA payment amounts
+  const isPFA = entityType === "pfa";
+  const normaEntry = isPFA && regime === "norma_venit" ? getNormaDeVenitEntry(profile.caen_code) : null;
+  const incomeBase = normaEntry ? normaEntry.normaValue : 0;
+  const taxBreakdown = isPFA && incomeBase > 0 ? calculateTotalTax(incomeBase, regime, 0, profile.caen_code) : undefined;
+
+  const timelineEntries = buildAnnualTimeline(allDeadlines, taxBreakdown);
+
   return (
     <div className="pb-20 lg:pb-0">
       <div className="mb-6">
@@ -37,7 +57,12 @@ export default async function CalendarPage() {
         </p>
       </div>
 
-      <FiscalCalendar regime={regime} tvaStatus={tvaStatus} entityType={entityType} days={365} />
+      <CalendarViewToggle
+        regime={regime}
+        tvaStatus={tvaStatus}
+        entityType={entityType}
+        timelineEntries={timelineEntries}
+      />
     </div>
   );
 }
