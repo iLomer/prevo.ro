@@ -5,5 +5,6 @@ export { Pricing } from "./Pricing";
 export { SocialProof } from "./SocialProof";
 export { Analytics } from "./Analytics";
 export { Navbar } from "./Navbar";
+export { FAQ } from "./FAQ";
 export { Contact } from "./Contact";
 export { Footer } from "./Footer";
